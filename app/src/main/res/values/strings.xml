@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Android Chat</string>
+    <string name="msg_email">Correo electrónico</string>
+    <string name="msg_password">Contraseña</string>
+    <string name="msg_signin">Iniciar sesión</string>
+    <string name="msg_signup">Crear cuenta</string>
+    <string name="msg_new_user">Usuario registrado exitosamente</string>
+    <string name="msg_error_signin">Imposible iniciar sesión %s</string>
+    <string name="msg_error_signup">Imposible registrar nuevo usuario %s</string>
+    <string name="title_activity_contact_list">ContactListActivity</string>
+
+</resources>
