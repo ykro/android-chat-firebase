@@ -1,25 +1,26 @@
 package edu.galileo.android.androidchat.login;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.util.FirebaseUtils;
 
 /**
  * Created by ykro.
  */
 public class LoginInteractorImpl implements LoginInteractor {
-    Firebase dataReference;
+    private FirebaseUtils firebase;
+    private Firebase dataReference;
+
+    private final static boolean ONLINE = true;
+    private final static boolean OFFLINE = true;
 
     public LoginInteractorImpl() {
-        this.dataReference = new Firebase(FirebaseUtils.getFirebaseURL());
+        this.firebase = new FirebaseUtils();
+        this.dataReference = firebase.getDataReference();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class LoginInteractorImpl implements LoginInteractor {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                changeOnlineStatus();
+                firebase.changeUserConnectionStatus(ONLINE);
                 listener.onSignInSuccess();
             }
 
@@ -63,48 +64,7 @@ public class LoginInteractorImpl implements LoginInteractor {
 
     @Override
     public void doSignOff() {
+        firebase.changeUserConnectionStatus(OFFLINE);
         dataReference.unauth();
-    }
-
-    private void changeOnlineStatus() {
-        AuthData authData = dataReference.getAuth();
-
-        Map<String,Object> providerData = authData.getProviderData();
-        String email = providerData.get("email").toString();
-        String userPath = email.replace(".","_");
-        final Firebase userReference = getUsersReference(userPath);
-
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                User currentUser = snapshot.getValue(User.class);
-                if (currentUser != null){
-
-                    currentUser.setOnline();
-                    Map<String, Object> updates = new HashMap<String, Object>();
-                    updates.put("online", true);
-                    userReference.updateChildren(updates);
-                } else {
-                    registerNewUser();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {}
-        });
-    }
-
-    private void registerNewUser() {
-        AuthData authData = dataReference.getAuth();
-        Map<String,Object> providerData = authData.getProviderData();
-        String email = providerData.get("email").toString();
-        String newUserPath = email.replace(".","_");
-
-        User currentUser = new User(email, true, null);
-        getUsersReference(newUserPath).setValue(currentUser);
-    }
-
-    private Firebase getUsersReference(String user){
-        return dataReference.getRoot().child(FirebaseUtils.getFirebaseUsersPath()).child(user);
     }
 }
