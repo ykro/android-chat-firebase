@@ -12,10 +12,6 @@ public class AndroidChatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        setUpFirebase();
-    }
-
-    public void setUpFirebase() {
         Firebase.setAndroidContext(this);
     }
 }

@@ -4,13 +4,13 @@ package edu.galileo.android.androidchat.login;
  * Created by ykro.
  */
 public class LoginPresenterImpl implements LoginPresenter,
-                                           OnServerTaskFinishedListener {
+        OnBackendTaskFinishedListener {
     LoginView loginView;
     LoginInteractor loginInteractor;
 
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
-        this.loginInteractor = new LoginInteractorImpl();
+        this.loginInteractor = new LoginInteractorImpl(this);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class LoginPresenterImpl implements LoginPresenter,
             loginView.disableInputs();
             loginView.showProgress();
         }
-        loginInteractor.doSignIn(email, password, this);
+        loginInteractor.doSignIn(email, password);
     }
 
     @Override
@@ -28,12 +28,12 @@ public class LoginPresenterImpl implements LoginPresenter,
             loginView.disableInputs();
             loginView.showProgress();
         }
-        loginInteractor.doSignUp(email, password, this);
+        loginInteractor.doSignUp(email, password);
     }
 
     @Override
     public void checkForAuthenticatedUser() {
-        loginInteractor.checkAlreadyAuthenticated(this);
+        loginInteractor.checkAlreadyAuthenticated();
     }
 
     @Override
@@ -71,10 +71,5 @@ public class LoginPresenterImpl implements LoginPresenter,
             loginView.hideProgress();
             loginView.enableInputs();
         }
-    }
-
-    @Override
-    public void onSignOffSuccess() {
-
     }
 }

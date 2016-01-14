@@ -7,6 +7,7 @@
     <string name="msg_new_user">Usuario registrado exitosamente</string>
     <string name="msg_error_signin">Imposible iniciar sesión %s</string>
     <string name="msg_error_signup">Imposible registrar nuevo usuario %s</string>
-    <string name="title_activity_contact_list">ContactListActivity</string>
 
+    <string name="action_signoff">Cerrar sesión</string>
+    <string name="title_activity_contact_list">ContactListActivity</string>
 </resources>
