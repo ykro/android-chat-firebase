@@ -12,29 +12,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.login.LoginActivity;
-import edu.galileo.android.androidchat.util.BackendUtils;
 
-public class ContactListActivity extends AppCompatActivity {
-    BackendUtils firebase;
+public class ContactListActivity extends AppCompatActivity
+                                 implements ContactListView {
 
-    @Bind(R.id.recyclerViewContacts) RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerViewContacts) RecyclerView recyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
+    private ContactListPresenter contactListPresenter;
+    private ContactListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
-        firebase = new BackendUtils();
+
+        contactListPresenter = new ContactListPresenterImpl(this);
 
         setSupportActionBar(toolbar);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,9 +48,9 @@ public class ContactListActivity extends AppCompatActivity {
         });
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //mRecyclerView.setAdapter(adapter);
+        adapter = new ContactListAdapter(this, new ArrayList<User>());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -60,10 +64,33 @@ public class ContactListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            firebase.signOff();
+            contactListPresenter.signOff();
             startActivity(new Intent(this, LoginActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onContactAdded(User user) {
+        //agregar el usuario a la lista
+        if (recyclerView != null) {
+            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        }
+    }
+
+    @Override
+    public void onContactChanged() {
+        //check for online -> offline | offline -> online status
+    }
+
+    @Override
+    public void onContactRemoved() {
+        //remove from the list
+    }
+
+    @Override
+    public void onSubscriptionError() {
+        //???
     }
 }

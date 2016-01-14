@@ -4,7 +4,7 @@ package edu.galileo.android.androidchat.login;
  * Created by ykro.
  */
 public class LoginPresenterImpl implements LoginPresenter,
-        OnBackendTaskFinishedListener {
+                                           LoginTaskFinishedListener {
     LoginView loginView;
     LoginInteractor loginInteractor;
 

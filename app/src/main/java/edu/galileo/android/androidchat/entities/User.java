@@ -1,6 +1,8 @@
 package edu.galileo.android.androidchat.entities;
 
-import java.util.ArrayList;
+import java.util.Map;
+
+import edu.galileo.android.androidchat.util.BackendUtil;
 
 /**
  * Created by ykro.
@@ -8,11 +10,13 @@ import java.util.ArrayList;
 public class User {
     String username;
     boolean online;
-    ArrayList<String> contacts;
+    Map<String, String> contacts;
+    public final static boolean ONLINE = true;
+    public final static boolean OFFLINE = false;
 
     public User(){ }
 
-    public User(String username, boolean online, ArrayList<String> contacts){
+    public User(String username, boolean online, Map<String, String> contacts){
         this.username = username;
         this.online = online;
         this.contacts = contacts;
@@ -38,11 +42,15 @@ public class User {
         this.online = false;
     }
 
-    public ArrayList<String> getContacts() {
+    public Map<String, String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<String> contacts) {
+    public void setContacts(Map<String, String> contacts) {
         this.contacts = contacts;
+    }
+
+    public String getAvatarURL() {
+        return BackendUtil.getAvatarUrl(this.username);
     }
 }
