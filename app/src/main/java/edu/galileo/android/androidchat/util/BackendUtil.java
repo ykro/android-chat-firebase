@@ -1,7 +1,5 @@
 package edu.galileo.android.androidchat.util;
 
-import android.util.Log;
-
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -28,7 +26,13 @@ public class BackendUtil {
     private final static String USERS_PATH = "users";
     private final static String CHATS_PATH = "chats";
 
+    /*
+    private final static int EVENT_CHANGED = 2;
+    private final static int EVENT_REMOVED = 1;
+    private final static int EVENT_ADDED = 0;
+*/
 
+    private User currentUser;
     private Firebase dataReference;
     private ChildEventListener contactListEventListener;
 
@@ -41,7 +45,7 @@ public class BackendUtil {
     }
 
     public String getAuthUserEmail() {
-        AuthData authData = getAuthData();
+        AuthData authData = dataReference.getAuth();
         String email = null;
         if (authData != null) {
             Map<String, Object> providerData = authData.getProviderData();
@@ -51,37 +55,22 @@ public class BackendUtil {
     }
 
     public void registerNewUser() {
-        AuthData authData = getAuthData();
-        if (authData != null) {
-            Map<String,Object> providerData = authData.getProviderData();
-            String email = providerData.get("email").toString();
-            String newUserPath = email.replace(".","_");
-
-            User currentUser = new User(email, true, null);
-            getUsersReference(newUserPath).setValue(currentUser);
+        String email = getAuthUserEmail();
+        if (email != null) {
+            this.currentUser = new User(email, true, null);
+            getUsersReference(email).setValue(currentUser);
         }
     }
 
-    public void changeUserConnectionStatus(final boolean online) {
-        AuthData authData = getAuthData();
-        if (authData != null) {
-
-            Map<String, Object> providerData = authData.getProviderData();
-            String email = providerData.get("email").toString();
-            String userPath = email.replace(".", "_");
-            final Firebase userReference = getUsersReference(userPath);
-
+    private void fillCurrentUserData() {
+        String email = getAuthUserEmail();
+        if (email != null) {
+            Firebase userReference = getUsersReference(email);
             userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    User currentUser = snapshot.getValue(User.class);
-                    if (currentUser != null) {
-
-                        currentUser.setOnline();
-                        Map<String, Object> updates = new HashMap<String, Object>();
-                        updates.put("online", online);
-                        userReference.updateChildren(updates);
-                    } else {
+                    currentUser = snapshot.getValue(User.class);
+                    if (currentUser == null) {
                         registerNewUser();
                     }
                 }
@@ -90,6 +79,29 @@ public class BackendUtil {
                 public void onCancelled(FirebaseError firebaseError) {
                 }
             });
+        }
+    }
+
+    public void changeUserConnectionStatus(boolean online) {
+        String email = currentUser.getEmail();
+        Firebase userReference = getUsersReference(email);
+        Map<String, Object> updates = new HashMap<String, Object>();
+        updates.put("online", online);
+        userReference.updateChildren(updates);
+        notifyContactsOfConnectionChange();
+    }
+
+    private void notifyContactsOfConnectionChange() {
+        Firebase reference;
+        Map<String, Boolean> contacts = currentUser.getContacts();
+
+        for(Map.Entry<String, Boolean> entry : contacts.entrySet()) {
+            String email = entry.getKey();
+            reference = getOneContactsReference(email, currentUser.getEmail());
+            Map<String, Object> updates = new HashMap<String, Object>();
+            updates.put("online", User.OFFLINE);
+            reference.updateChildren(updates);
+
         }
     }
 
@@ -112,6 +124,7 @@ public class BackendUtil {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                fillCurrentUserData();
                 changeUserConnectionStatus(User.ONLINE);
                 listener.onSignInSuccess();
             }
@@ -127,46 +140,55 @@ public class BackendUtil {
     public void signOff() {
         changeUserConnectionStatus(User.OFFLINE);
         dataReference.unauth();
-        //callback();
     }
 
-    private AuthData getAuthData() {
-        return dataReference.getAuth();
+    private Firebase getUsersReference(String email){
+        String key = email.replace(".","_");
+        return dataReference.getRoot().child(USERS_PATH).child(key);
     }
 
-    private Firebase getUsersReference(String user){
-        return dataReference.getRoot().child(USERS_PATH).child(user);
+    private Firebase getContactsReference(String email){
+        String key = email.replace(".","_");
+        return dataReference.getRoot().child(USERS_PATH).child(key).child(CONTACTS_PATH);
     }
 
-    private Firebase getContactsReference(String user){
-        return dataReference.getRoot().child(USERS_PATH).child(user).child(CONTACTS_PATH);
+    private Firebase getOneContactsReference(String mainEmail, String childEmail){
+        String mainKey = mainEmail.replace(".","_");
+        String childKey = childEmail.replace(".","_");
+        return dataReference.getRoot().child(USERS_PATH).child(mainKey).child(CONTACTS_PATH).child(childKey);
     }
 
     public void checkAlreadyAuthenticated(LoginTaskFinishedListener listener) {
-        if (getAuthData() != null) {
+        if (dataReference.getAuth() != null) {
             listener.onSignInSuccess();
         }
     }
 
     public void subscribeForContactListUpdates(final ContactListTaskFinishedListener listener){
-        if (contactListEventListener != null) {
+        if (contactListEventListener == null) {
             contactListEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-                    Log.e("ASDF", dataSnapshot.getKey() + " " + dataSnapshot.getValue());
-                    String key = dataSnapshot.getKey();
-                    key = key.replace(".","_");
-                    //getUserFromKey(key);
+                    String email = dataSnapshot.getKey();
+                    boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
+                    User user = new User(email, online, null);
+                    listener.onContactAdded(user);
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String previousChildKey) {
-                    listener.onContactChanged();
+                    String email = dataSnapshot.getKey();
+                    boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
+                    User user = new User(email, online, null);
+                    listener.onContactChanged(user);
                 }
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    listener.onContactRemoved();
+                    String email = dataSnapshot.getKey();
+                    boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
+                    User user = new User(email, online, null);
+                    listener.onContactRemoved(user);
                 }
 
                 @Override
@@ -174,35 +196,16 @@ public class BackendUtil {
                 }
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    listener.onSubscriptionError(firebaseError.getMessage());
-                }
+                public void onCancelled(FirebaseError firebaseError) {}
             };
-
-            String email = getAuthUserEmail();
-            email = email.replace(".","_");
+            String email = currentUser.getEmail();
             getContactsReference(email).addChildEventListener(contactListEventListener);
         }
-    }
-
-    private void getUserFromKey(String key, final ContactListTaskFinishedListener listener) {
-        getUsersReference(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                listener.onContactAdded(user);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });
     }
 
     public void unSubscribeForContactListUpdates(){
         if (contactListEventListener != null) {
             dataReference.removeEventListener(contactListEventListener);
-            contactListEventListener = null;
         }
     }
 

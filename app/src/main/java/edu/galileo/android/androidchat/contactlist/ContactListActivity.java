@@ -54,6 +54,24 @@ public class ContactListActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        contactListPresenter.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        contactListPresenter.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        contactListPresenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_contactlist, menu);
         return true;
@@ -73,24 +91,17 @@ public class ContactListActivity extends AppCompatActivity
 
     @Override
     public void onContactAdded(User user) {
-        //agregar el usuario a la lista
-        if (recyclerView != null) {
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-        }
+        adapter.add(user);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override
-    public void onContactChanged() {
-        //check for online -> offline | offline -> online status
+    public void onContactChanged(User user) {
+        adapter.update(user);
     }
 
     @Override
-    public void onContactRemoved() {
-        //remove from the list
-    }
-
-    @Override
-    public void onSubscriptionError() {
-        //???
+    public void onContactRemoved(User user) {
+        adapter.remove(user);
     }
 }

@@ -3,6 +3,7 @@ package edu.galileo.android.androidchat.contactlist;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         User user = contactList.get(position);
-        String email = user.getUsername();
+        String email = user.getEmail();
         boolean online = user.isOnline();
         String status = online ? "online" : "offline";
         int color = online ? Color.GREEN : Color.RED;
@@ -56,6 +57,37 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
     @Override
     public int getItemCount() {
         return contactList.size();
+    }
+
+
+    public int getPositionByUsername(String username) {
+        int position = 0;
+        for (User user : contactList) {
+            if (user.getEmail().equals(username)) {
+                break;
+            }
+            position++;
+        }
+
+        return position;
+    }
+
+    public void add(User user) {
+        this.contactList.add(user);
+        this.notifyItemInserted(contactList.size() -1);
+    }
+
+    public void update(User user) {
+        int pos = getPositionByUsername(user.getEmail());
+        Log.e("ASDF","pos to update " + pos);
+        this.notifyItemChanged(pos, user);
+    }
+
+    public void remove(User user) {
+        int pos = getPositionByUsername(user.getEmail());
+        Log.e("ASDF","pos to delete " + pos);
+        this.contactList.remove(user);
+        this.notifyItemRemoved(pos);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

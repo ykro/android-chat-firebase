@@ -31,7 +31,7 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
         contactListInteractor.changeConnectionStatus(User.ONLINE);
         contactListInteractor.subscribeForContactEvents();
     }
@@ -48,11 +48,6 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
-    public void onSubscriptionError(String error) {
-        contactListView.onSubscriptionError();
-    }
-
-    @Override
     public void onContactAdded(User user) {
         if (contactListView != null) {
             contactListView.onContactAdded(user);
@@ -60,16 +55,16 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
-    public void onContactChanged() {
+    public void onContactChanged(User user) {
         if (contactListView != null) {
-            contactListView.onContactChanged();
+            contactListView.onContactChanged(user);
         }
     }
 
     @Override
-    public void onContactRemoved() {
+    public void onContactRemoved(User user) {
         if (contactListView != null) {
-            contactListView.onContactRemoved();
+            contactListView.onContactRemoved(user);
         }
     }
 }

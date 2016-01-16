@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Map;
 
 import edu.galileo.android.androidchat.util.BackendUtil;
@@ -7,50 +9,47 @@ import edu.galileo.android.androidchat.util.BackendUtil;
 /**
  * Created by ykro.
  */
+@JsonIgnoreProperties({"avatarURL"})
 public class User {
-    String username;
+    String email;
     boolean online;
-    Map<String, String> contacts;
+    Map<String, Boolean> contacts;
     public final static boolean ONLINE = true;
     public final static boolean OFFLINE = false;
 
     public User(){ }
 
-    public User(String username, boolean online, Map<String, String> contacts){
-        this.username = username;
+    public User(String email, boolean online, Map<String, Boolean> contacts){
+        this.email = email;
         this.online = online;
         this.contacts = contacts;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isOnline() {
         return online;
     }
 
-    public void setOnline() {
-        this.online = true;
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
-    public void setOffline() {
-        this.online = false;
-    }
-
-    public Map<String, String> getContacts() {
+    public Map<String, Boolean> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Map<String, String> contacts) {
+    public void setContacts(Map<String, Boolean> contacts) {
         this.contacts = contacts;
     }
 
     public String getAvatarURL() {
-        return BackendUtil.getAvatarUrl(this.username);
+        return BackendUtil.getAvatarUrl(this.email);
     }
 }

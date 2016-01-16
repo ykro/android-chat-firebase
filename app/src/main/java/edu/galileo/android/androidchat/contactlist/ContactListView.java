@@ -7,7 +7,6 @@ import edu.galileo.android.androidchat.entities.User;
  */
 public interface ContactListView {
     void onContactAdded(User user);
-    void onContactChanged();
-    void onContactRemoved();
-    void onSubscriptionError();
+    void onContactChanged(User user);
+    void onContactRemoved(User user);
 }

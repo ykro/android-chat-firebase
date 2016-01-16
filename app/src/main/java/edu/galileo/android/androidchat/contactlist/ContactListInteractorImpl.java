@@ -24,13 +24,6 @@ public class ContactListInteractorImpl implements ContactListInteractor {
         backendUtil.changeUserConnectionStatus(online);
     }
 
-    /*
-    @Override
-    public void getContacts() {
-        backendUtil.getContactList(listener);
-    }
-    */
-
     @Override
     public void subscribeForContactEvents() {
         backendUtil.subscribeForContactListUpdates(listener);

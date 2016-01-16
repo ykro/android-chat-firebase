@@ -5,7 +5,7 @@ package edu.galileo.android.androidchat.contactlist;
  */
 public interface ContactListPresenter {
     void onStop();
-    void onResume();
+    void onStart();
     void onDestroy();
 
     void signOff();
