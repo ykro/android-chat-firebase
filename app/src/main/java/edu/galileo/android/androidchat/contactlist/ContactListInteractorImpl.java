@@ -11,7 +11,7 @@ public class ContactListInteractorImpl implements ContactListInteractor {
 
     public ContactListInteractorImpl(ContactListTaskFinishedListener listener) {
         this.listener = listener;
-        this.backendUtil = new BackendUtil();
+        this.backendUtil = BackendUtil.getInstance();
     }
 
     @Override

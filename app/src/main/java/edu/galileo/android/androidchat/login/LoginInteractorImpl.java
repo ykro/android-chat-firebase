@@ -11,7 +11,7 @@ public class LoginInteractorImpl implements LoginInteractor {
     private LoginTaskFinishedListener listener;
 
     public LoginInteractorImpl(LoginTaskFinishedListener listener) {
-        this.backendUtil = new BackendUtil();
+        this.backendUtil = BackendUtil.getInstance();
         this.listener = listener;
     }
 

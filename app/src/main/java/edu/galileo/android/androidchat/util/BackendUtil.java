@@ -26,15 +26,17 @@ public class BackendUtil {
     private final static String USERS_PATH = "users";
     private final static String CHATS_PATH = "chats";
 
-    /*
-    private final static int EVENT_CHANGED = 2;
-    private final static int EVENT_REMOVED = 1;
-    private final static int EVENT_ADDED = 0;
-*/
-
     private User currentUser;
     private Firebase dataReference;
     private ChildEventListener contactListEventListener;
+
+    private static class SingletonHolder {
+        private static final BackendUtil INSTANCE = new BackendUtil();
+    }
+
+    public static BackendUtil getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
 
     public BackendUtil(){
         dataReference = new Firebase(FIREBASE_URL);
@@ -213,7 +215,7 @@ public class BackendUtil {
         return GRAVATAR_URL + md5(username) + "?s=72";
     }
 
-    public static final String md5(final String s) {
+    private static final String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash
