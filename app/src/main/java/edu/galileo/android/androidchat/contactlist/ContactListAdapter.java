@@ -79,8 +79,9 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
 
     public void update(User user) {
         int pos = getPositionByUsername(user.getEmail());
-        Log.e("ASDF","pos to update " + pos);
-        this.notifyItemChanged(pos, user);
+        //Log.e("ASDF","pos to update " + pos);
+        //Log.e("ASDF","user to update " + user.getEmail() + " " + user.isOnline());
+        this.notifyItemChanged(pos);
     }
 
     public void remove(User user) {
