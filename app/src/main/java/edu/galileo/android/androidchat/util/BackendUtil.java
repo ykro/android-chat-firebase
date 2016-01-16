@@ -1,7 +1,5 @@
 package edu.galileo.android.androidchat.util;
 
-import android.util.Log;
-
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -177,9 +175,12 @@ public class BackendUtil {
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
+                        listener.onSignInError(firebaseError.getMessage());
                     }
                 });
             }
+        } else {
+            listener.onFailedToRecoverSession();
         }
     }
 
@@ -189,6 +190,7 @@ public class BackendUtil {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
                     String email = dataSnapshot.getKey();
+                    email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
                     listener.onContactAdded(user);
@@ -197,6 +199,7 @@ public class BackendUtil {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String previousChildKey) {
                     String email = dataSnapshot.getKey();
+                    email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
                     listener.onContactChanged(user);
@@ -205,6 +208,7 @@ public class BackendUtil {
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
                     String email = dataSnapshot.getKey();
+                    email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
                     listener.onContactRemoved(user);

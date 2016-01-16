@@ -8,4 +8,5 @@ public interface LoginTaskFinishedListener {
     void onSignUpSuccess();
     void onSignInError(String error);
     void onSignUpError(String error);
+    void onFailedToRecoverSession();
 }

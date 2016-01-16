@@ -17,6 +17,8 @@ public class ContactListPresenterImpl implements ContactListPresenter,
 
     @Override
     public void signOff() {
+        contactListInteractor.changeConnectionStatus(User.OFFLINE);
+        contactListInteractor.unSubscribeForContactEvents();
         contactListInteractor.signOff();
     }
 

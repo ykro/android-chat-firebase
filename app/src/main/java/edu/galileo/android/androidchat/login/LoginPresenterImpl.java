@@ -76,4 +76,12 @@ public class LoginPresenterImpl implements LoginPresenter,
             loginView.enableInputs();
         }
     }
+
+    @Override
+    public void onFailedToRecoverSession() {
+        if (loginView != null) {
+            loginView.hideProgress();
+            loginView.enableInputs();
+        }
+    }
 }

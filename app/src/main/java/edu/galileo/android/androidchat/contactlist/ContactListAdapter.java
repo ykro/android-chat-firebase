@@ -49,6 +49,7 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
         holder.txtStatus.setText(status);
         holder.txtStatus.setTextColor(color);
 
+        Log.e("ASF", email + " " + user.getAvatarURL());
         Glide.with(context.getApplicationContext())
                 .load(user.getAvatarURL())
                 .into(holder.imgAvatar);
@@ -79,16 +80,15 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
 
     public void update(User user) {
         int pos = getPositionByUsername(user.getEmail());
-        //Log.e("ASDF","pos to update " + pos);
-        //Log.e("ASDF","user to update " + user.getEmail() + " " + user.isOnline());
-        this.notifyItemChanged(pos);
+        contactList.set(pos, user);
+        notifyItemChanged(pos);
     }
 
     public void remove(User user) {
         int pos = getPositionByUsername(user.getEmail());
-        Log.e("ASDF","pos to delete " + pos);
-        this.contactList.remove(user);
-        this.notifyItemRemoved(pos);
+        contactList.remove(pos);
+        notifyItemRemoved(pos);
+        notifyItemRangeChanged(pos, contactList.size());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
