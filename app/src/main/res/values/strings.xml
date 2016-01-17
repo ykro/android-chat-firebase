@@ -10,4 +10,7 @@
 
     <string name="action_signoff">Cerrar sesión</string>
     <string name="title_activity_contact_list">Contacts</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

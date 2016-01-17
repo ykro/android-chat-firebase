@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.chat.ChatActivity;
 import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.login.LoginActivity;
 
 public class ContactListActivity extends AppCompatActivity
-                                 implements ContactListView {
+                                 implements ContactListView, OnItemClickListener {
 
     @Bind(R.id.recyclerViewContacts) RecyclerView recyclerView;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -48,7 +49,7 @@ public class ContactListActivity extends AppCompatActivity
         });
 
 
-        adapter = new ContactListAdapter(this, new ArrayList<User>());
+        adapter = new ContactListAdapter(this, new ArrayList<User>(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -103,5 +104,18 @@ public class ContactListActivity extends AppCompatActivity
     @Override
     public void onContactRemoved(User user) {
         adapter.remove(user);
+    }
+
+    @Override
+    public void onItemClick(User user) {
+        Intent i = new Intent(this, ChatActivity.class);
+        i.putExtra(ChatActivity.EMAIL_KEY, user.getEmail());
+        i.putExtra(ChatActivity.ONLINE_KEY, user.isOnline());
+        startActivity(i);
+    }
+
+    @Override
+    public void onItemLongClick(User user) {
+        contactListPresenter.removeContact(user.getEmail());
     }
 }

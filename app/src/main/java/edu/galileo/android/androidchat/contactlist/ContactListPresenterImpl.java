@@ -24,13 +24,8 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
-    public void onItemClick(int position) {
-
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-
+    public void removeContact(String email) {
+        contactListInteractor.removeContact(email);
     }
 
     @Override

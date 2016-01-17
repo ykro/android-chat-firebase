@@ -1,15 +1,10 @@
 package edu.galileo.android.androidchat.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.Map;
-
-import edu.galileo.android.androidchat.util.AvatarUtil;
 
 /**
  * Created by ykro.
  */
-@JsonIgnoreProperties({"avatarURL"})
 public class User {
     String email;
     boolean online;
@@ -47,9 +42,5 @@ public class User {
 
     public void setContacts(Map<String, Boolean> contacts) {
         this.contacts = contacts;
-    }
-
-    public String getAvatarURL() {
-        return AvatarUtil.getAvatarUrl(this.email);
     }
 }

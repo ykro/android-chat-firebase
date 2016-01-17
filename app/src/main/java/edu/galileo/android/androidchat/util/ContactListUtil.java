@@ -1,7 +1,5 @@
 package edu.galileo.android.androidchat.util;
 
-import android.util.Log;
-
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -100,6 +98,14 @@ public class ContactListUtil {
         if (contactListEventListener != null) {
             dataReference.removeEventListener(contactListEventListener);
         }
+    }
+
+    public void removeContact(String email) {
+        User currentUser = loginUtil.getCurrentUser();
+        String currentUserEmailKey = currentUser.getEmail().replace(".","_");
+        String emailKey = email.replace(".","_");
+        getOneContactReference(currentUserEmailKey, emailKey).removeValue();
+        getOneContactReference(emailKey, currentUserEmailKey).removeValue();
     }
 
     private Firebase getContactsReference(String email){

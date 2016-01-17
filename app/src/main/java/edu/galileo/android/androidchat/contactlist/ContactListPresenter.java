@@ -9,6 +9,5 @@ public interface ContactListPresenter {
     void onDestroy();
 
     void signOff();
-    void onItemClick(int position);
-    void onItemLongClick(int position);
+    void removeContact(String email);
 }

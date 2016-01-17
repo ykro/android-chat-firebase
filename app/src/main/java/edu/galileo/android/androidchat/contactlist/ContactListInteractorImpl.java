@@ -41,4 +41,9 @@ public class ContactListInteractorImpl implements ContactListInteractor {
     public void destroyContactListListener() {
         contactListUtil.destroyContactListListener();
     }
+
+    @Override
+    public void removeContact(String email) {
+        contactListUtil.removeContact(email);
+    }
 }
