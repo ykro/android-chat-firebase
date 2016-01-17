@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,7 +18,6 @@ import android.widget.RelativeLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.login.LoginPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,13 +84,13 @@ public class AddContactFragment extends DialogFragment
 
     @Override
     public void contactAdded() {
+        Log.e("ASDF","agregado");
         Snackbar.make(container, R.string.addcontact_message_contactadded, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void contactNotAdded(String error) {
+    public void contactNotAdded() {
         inputEmail.setText("");
-        String msgError = String.format(getString(R.string.addcontact_error_message), error);
-        inputEmail.setError(msgError);
+        inputEmail.setError(getString(R.string.addcontact_error_message));
     }
 }

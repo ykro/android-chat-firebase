@@ -4,13 +4,13 @@ package edu.galileo.android.androidchat.addcontact;
  * Created by ykro.
  */
 public class AddContactEvent {
-    String error;
+    boolean error = false;
 
-    public String getError() {
+    public boolean isError() {
         return error;
     }
 
-    public void setError(String error) {
+    public void setError(boolean error) {
         this.error = error;
     }
 }

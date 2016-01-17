@@ -138,8 +138,6 @@ public class LoginUtil {
         return dataReference.getRoot().child(USERS_PATH).child(emailKey);
     }
 
-
-
     public User getCurrentUser() {
         return currentUser;
     }

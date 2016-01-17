@@ -15,6 +15,6 @@
     <string name="addcontact.message.add">Aceptar</string>
     <string name="addcontact.message.cancel">Cancelar</string>
     <string name="addcontact.message.contactadded">Contacto agregado exitosamente</string>
-    <string name="addcontact.error.message">Imposible agregar %s</string>
+    <string name="addcontact.error.message">Imposible agregar usuario no existente</string>
 
 </resources>

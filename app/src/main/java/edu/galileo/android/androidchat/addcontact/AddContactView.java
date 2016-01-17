@@ -10,5 +10,5 @@ public interface AddContactView {
     void hideProgress();
 
     void contactAdded();
-    void contactNotAdded(String error);
+    void contactNotAdded();
 }
