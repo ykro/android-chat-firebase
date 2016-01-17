@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".contactlist.ContactListActivity"
-            android:label="@string/title_activity_contact_list"
+            android:label="@string/contactlist.title"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".chat.ChatActivity"

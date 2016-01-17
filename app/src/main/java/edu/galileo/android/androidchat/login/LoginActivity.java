@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void loginError(String error) {
         inputPassword.setText("");
-        String msgError = String.format(getString(R.string.msg_error_signin), error);
+        String msgError = String.format(getString(R.string.login_error_message_signin), error);
         inputPassword.setError(msgError);
     }
 
@@ -99,12 +99,12 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void newUserError(String error) {
         inputPassword.setText("");
-        String msgError = String.format(getString(R.string.msg_error_signup), error);
+        String msgError = String.format(getString(R.string.login_error_message_signup), error);
         inputPassword.setError(msgError);
     }
 
     @Override
     public void newUserSuccess() {
-        Snackbar.make(container, R.string.msg_new_user, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(container, R.string.login_notice_message_newuser, Snackbar.LENGTH_SHORT).show();
     }
 }

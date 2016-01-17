@@ -30,50 +30,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/contentLayout"
         android:layout_marginTop="?attr/actionBarSize">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messageRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_above="@+id/btnSendMessage" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/linearLayout">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTxtMessage"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnSendMessage"
-                android:layout_gravity="bottom"
-                android:tint="@android:color/black"
-                android:background="@android:color/transparent"
-                android:src="@android:drawable/ic_menu_send"/>
-
-        </LinearLayout>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:id="@+id/editTxtMessage"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/btnSendMessage"
+            android:layout_toStartOf="@+id/btnSendMessage" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSendMessage"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:tint="@android:color/black"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_send"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

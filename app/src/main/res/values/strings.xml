@@ -1,16 +1,15 @@
 <resources>
     <string name="app_name">Android Chat</string>
-    <string name="msg_email">Correo electrónico</string>
-    <string name="msg_password">Contraseña</string>
-    <string name="msg_signin">Iniciar sesión</string>
-    <string name="msg_signup">Crear cuenta</string>
-    <string name="msg_new_user">Usuario registrado exitosamente</string>
-    <string name="msg_error_signin">Imposible iniciar sesión %s</string>
-    <string name="msg_error_signup">Imposible registrar nuevo usuario %s</string>
 
-    <string name="action_signoff">Cerrar sesión</string>
-    <string name="title_activity_contact_list">Contacts</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="login.message.email">Correo electrónico</string>
+    <string name="login.message.password">Contraseña</string>
+    <string name="login.message.signin">Iniciar sesión</string>
+    <string name="login.message.signup">Crear cuenta</string>
+    <string name="login.notice.message.newuser">Usuario registrado exitosamente</string>
+    <string name="login.error.message.signin">Imposible iniciar sesión %s</string>
+    <string name="login.error.message.signup">Imposible registrar nuevo usuario %s</string>
+    <string name="contactlist.menu.action.signoff">Cerrar sesión</string>
+    <string name="contactlist.title">Contacts</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -33,6 +33,11 @@ public class ChatInteractorImpl implements ChatInteractor {
     }
 
     @Override
+    public void setSender() {
+        chatUtil.setSender();
+    }
+
+    @Override
     public void sendMessage(String msg) {
         chatUtil.sendMessage(msg);
     }

@@ -1,6 +1,7 @@
 package edu.galileo.android.androidchat.chat;
 
 import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.entities.ChatMessage;
 
 /**
  * Created by ykro.
@@ -38,14 +39,19 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
+    public void setChatSender() {
+        this.chatInteractor.setSender();
+    }
+
+    @Override
     public void sendMessage(String msg) {
         chatInteractor.sendMessage(msg);
     }
 
     @Override
-    public void onMessageReceived(ChatMessageEvent event) {
+    public void onEvent(ChatMessageEvent event) {
         if (chatView != null) {
-            String msg = event.getMessage();
+            ChatMessage msg = event.getMessage();
             chatView.onMessageReceived(msg);
         }
     }

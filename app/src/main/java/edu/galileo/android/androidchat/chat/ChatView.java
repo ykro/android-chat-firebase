@@ -1,14 +1,11 @@
 package edu.galileo.android.androidchat.chat;
 
+import edu.galileo.android.androidchat.entities.ChatMessage;
+
 /**
  * Created by ykro.
  */
 public interface ChatView {
-    void showContent();
-    void hideContent();
-    void showProgress();
-    void hideProgress();
-
     void sendMessage();
-    void onMessageReceived(String msg);
+    void onMessageReceived(ChatMessage msg);
 }

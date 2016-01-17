@@ -10,5 +10,6 @@ public interface ChatInteractor {
     void unSubscribeForChatUpates();
     void destroyChatListener();
 
+    void setSender();
     void setRecipient(String recipient);
 }

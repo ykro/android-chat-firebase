@@ -14,6 +14,7 @@ import edu.galileo.android.androidchat.entities.ChatMessage;
  */
 public class ChatUtil {
     private Firebase dataReference;
+    private BackendUtil backendUtil;
     private ChildEventListener chatEventListener;
 
     private final static String SEPARATOR = "___";
@@ -29,22 +30,30 @@ public class ChatUtil {
     }
 
     public ChatUtil(){
-        BackendUtil backendUtil = BackendUtil.getInstance();
+        backendUtil = BackendUtil.getInstance();
         dataReference = backendUtil.getDataReference();
-        this.sender = backendUtil.getAuthUserEmail();
     }
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
 
+    public void setSender() {
+        this.sender = backendUtil.getAuthUserEmail();
+    }
+
     public void subscribeForChatUpates() {
         if (chatEventListener == null) {
+
             chatEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
                     ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
-                    ChatMessageEvent chatMessageEvent = new ChatMessageEvent(chatMessage.getMsg());
+                    String msgSender = chatMessage.getSender();
+                    msgSender = msgSender.replace("_",".");
+                    chatMessage.setSentByMe(msgSender.equals(sender));
+
+                    ChatMessageEvent chatMessageEvent = new ChatMessageEvent(chatMessage);
                     EventBus.getDefault().post(chatMessageEvent);
                 }
 
@@ -75,7 +84,8 @@ public class ChatUtil {
     }
 
     public void sendMessage(String msg) {
-        ChatMessage chatMessage = new ChatMessage(msg);
+        String keySender = this.sender.replace(".","_");
+        ChatMessage chatMessage = new ChatMessage(keySender, msg);
         getChatsReference().push().setValue(chatMessage);
     }
 

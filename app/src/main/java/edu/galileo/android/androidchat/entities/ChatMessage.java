@@ -1,12 +1,16 @@
 package edu.galileo.android.androidchat.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by ykro.
  */
 
+@JsonIgnoreProperties({"sentByMe"})
 public class ChatMessage {
     String msg;
     String sender;
+    boolean sentByMe;
 
     public ChatMessage(){}
 
@@ -31,4 +35,11 @@ public class ChatMessage {
         this.sender = sender;
     }
 
+    public boolean isSentByMe() {
+        return sentByMe;
+    }
+
+    public void setSentByMe(boolean sentByMe) {
+        this.sentByMe = sentByMe;
+    }
 }

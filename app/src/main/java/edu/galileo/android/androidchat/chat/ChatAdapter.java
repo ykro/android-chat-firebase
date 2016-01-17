@@ -1,21 +1,22 @@
 package edu.galileo.android.androidchat.chat;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.contactlist.OnItemClickListener;
 import edu.galileo.android.androidchat.entities.ChatMessage;
-import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by ykro.
@@ -32,7 +33,7 @@ public class ChatAdapter extends RecyclerView.Adapter <ChatAdapter.ViewHolder> {
 
     @Override
     public ChatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_contact, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_chat, parent, false);
         return new ViewHolder(view);
     }
 
@@ -41,12 +42,29 @@ public class ChatAdapter extends RecyclerView.Adapter <ChatAdapter.ViewHolder> {
         ChatMessage chatMessage = chatMessages.get(position);
 
         String msg = chatMessage.getMsg();
-        String sender = chatMessage.getSender();
-        /*
-        holder.txtUser.setText(email);
-        holder.txtStatus.setText(status);
-        holder.txtStatus.setTextColor(color);
-*/
+        holder.txtMessage.setText(msg);
+
+        int color = fetchColor(R.attr.colorPrimary);
+        int gravity = Gravity.LEFT;
+
+        if (!chatMessage.isSentByMe()) {
+            gravity = Gravity.RIGHT;
+            color = fetchColor(R.attr.colorAccent);
+        }
+
+        holder.txtMessage.setBackgroundColor(color);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.txtMessage.getLayoutParams();
+        params.gravity = gravity;
+        holder.txtMessage.setLayoutParams(params);
+    }
+
+    private int fetchColor(int color) {
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = context.obtainStyledAttributes(typedValue.data,
+                                        new int[] { color });
+        int returnColor = a.getColor(0, 0);
+        a.recycle();
+        return returnColor;
     }
 
     @Override
@@ -56,38 +74,15 @@ public class ChatAdapter extends RecyclerView.Adapter <ChatAdapter.ViewHolder> {
 
     public void add(ChatMessage message) {
         this.chatMessages.add(message);
-        this.notifyItemInserted(chatMessages.size() - 1);
-        //this.notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.imgAvatar) CircleImageView imgAvatar;
-        @Bind(R.id.txtStatus) TextView txtStatus;
-        @Bind(R.id.txtUser) TextView txtUser;
-        View view;
+        @Bind(R.id.txtMessage) TextView txtMessage;
 
         public ViewHolder(View view) {
             super(view);
-            this.view = view;
             ButterKnife.bind(this, view);
-        }
-
-        public void setClickListener(final User user,
-                                     final OnItemClickListener listener) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(user);
-                }
-            });
-
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    listener.onItemClick(user);
-                    return false;
-                }
-            });
         }
     }
 }

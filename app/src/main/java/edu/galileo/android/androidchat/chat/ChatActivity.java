@@ -7,10 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,10 +29,8 @@ public class ChatActivity extends AppCompatActivity
     @Bind(R.id.txtUser)              TextView txtUser;
     @Bind(R.id.txtStatus)            TextView txtStatus;
     @Bind(R.id.editTxtMessage)       EditText inputMessage;
-    @Bind(R.id.progressBar)          ProgressBar progressBar;
-    @Bind(R.id.recyclerViewContacts) RecyclerView recyclerView;
+    @Bind(R.id.messageRecyclerView)  RecyclerView recyclerView;
     @Bind(R.id.imgAvatar)            CircleImageView imgAvatar;
-    @Bind(R.id.contentLayout)        RelativeLayout contentLayout;
 
     public final static String EMAIL_KEY = "email";
     public final static String ONLINE_KEY = "online";
@@ -49,15 +44,34 @@ public class ChatActivity extends AppCompatActivity
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        chatPresenter = new ChatPresenterImpl(this);
+        chatPresenter.setChatSender();
 
+        setSupportActionBar(toolbar);
         Intent intent = getIntent();
         setToolbarData(intent);
 
-        chatPresenter = new ChatPresenterImpl(this);
         adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        chatPresenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        chatPresenter.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        chatPresenter.onDestroy();
+        super.onDestroy();
     }
 
     private void setToolbarData(Intent i) {
@@ -78,33 +92,15 @@ public class ChatActivity extends AppCompatActivity
     }
 
     @Override
-    public void showContent() {
-        contentLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideContent() {
-        contentLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     @OnClick(R.id.btnSendMessage)
     public void sendMessage() {
         chatPresenter.sendMessage(inputMessage.getText().toString());
+        inputMessage.setText("");
     }
 
     @Override
-    public void onMessageReceived(String msg) {
-
+    public void onMessageReceived(ChatMessage msg) {
+        adapter.add(msg);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
     }
 }

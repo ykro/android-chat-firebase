@@ -19,7 +19,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/msg_email"
+            android:hint="@string/login.message.email"
             android:inputType="textEmailAddress"
             android:id="@+id/editTxtEmail" />
     </android.support.design.widget.TextInputLayout>
@@ -33,7 +33,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/msg_password"
+            android:hint="@string/login.message.password"
             android:inputType="textPassword"
             android:id="@+id/editTxtPassword" />
     </android.support.design.widget.TextInputLayout>
@@ -48,13 +48,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/msg_signin"
+            android:text="@string/login.message.signin"
             android:id="@+id/btnSignin" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/msg_signup"
+            android:text="@string/login.message.signup"
             android:id="@+id/btnSignup"/>
     </LinearLayout>
 
@@ -64,6 +64,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_below="@+id/layoutButtons"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:visibility="gone" />
 </RelativeLayout>

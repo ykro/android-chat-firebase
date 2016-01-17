@@ -8,9 +8,11 @@ public interface ChatPresenter {
     void onResume();
     void onDestroy();
 
-    void sendMessage(String msg);
+    void setChatSender();
     void setChatRecipient(String recipient);
-    void onMessageReceived(ChatMessageEvent event);
+
+    void sendMessage(String msg);
+    void onEvent(ChatMessageEvent event);
 
 
 }
