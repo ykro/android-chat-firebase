@@ -49,7 +49,6 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
         holder.txtStatus.setText(status);
         holder.txtStatus.setTextColor(color);
 
-        Log.e("ASF", email + " " + user.getAvatarURL());
         Glide.with(context.getApplicationContext())
                 .load(user.getAvatarURL())
                 .into(holder.imgAvatar);

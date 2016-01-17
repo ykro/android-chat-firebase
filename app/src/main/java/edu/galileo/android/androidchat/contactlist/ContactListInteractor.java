@@ -8,4 +8,5 @@ public interface ContactListInteractor {
     void changeConnectionStatus(boolean online);
     void subscribeForContactEvents();
     void unSubscribeForContactEvents();
+    void destroyContactListListener();
 }

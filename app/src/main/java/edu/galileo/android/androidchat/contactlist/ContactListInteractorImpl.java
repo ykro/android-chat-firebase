@@ -1,36 +1,44 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import edu.galileo.android.androidchat.util.BackendUtil;
+import edu.galileo.android.androidchat.util.ContactListUtil;
+import edu.galileo.android.androidchat.util.LoginUtil;
 
 /**
  * Created by ykro.
  */
 public class ContactListInteractorImpl implements ContactListInteractor {
-    BackendUtil backendUtil;
+    LoginUtil loginUtil;
+    ContactListUtil contactListUtil;
     ContactListTaskFinishedListener listener;
 
     public ContactListInteractorImpl(ContactListTaskFinishedListener listener) {
         this.listener = listener;
-        this.backendUtil = BackendUtil.getInstance();
+        this.loginUtil = LoginUtil.getInstance();
+        this.contactListUtil = ContactListUtil.getInstance();
     }
 
     @Override
     public void signOff() {
-        backendUtil.signOff();
+        loginUtil.signOff();
     }
 
     @Override
     public void changeConnectionStatus(boolean online) {
-        backendUtil.changeUserConnectionStatus(online);
+        loginUtil.changeUserConnectionStatus(online);
     }
 
     @Override
     public void subscribeForContactEvents() {
-        backendUtil.subscribeForContactListUpdates(listener);
+        contactListUtil.subscribeForContactListUpdates(listener);
     }
 
     @Override
     public void unSubscribeForContactEvents() {
-        backendUtil.unSubscribeForContactListUpdates();
+        contactListUtil.unSubscribeForContactListUpdates();
+    }
+
+    @Override
+    public void destroyContactListListener() {
+        contactListUtil.destroyContactListListener();
     }
 }

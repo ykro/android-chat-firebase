@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Map;
 
-import edu.galileo.android.androidchat.util.BackendUtil;
+import edu.galileo.android.androidchat.util.AvatarUtil;
 
 /**
  * Created by ykro.
@@ -50,6 +50,6 @@ public class User {
     }
 
     public String getAvatarURL() {
-        return BackendUtil.getAvatarUrl(this.email);
+        return AvatarUtil.getAvatarUrl(this.email);
     }
 }
