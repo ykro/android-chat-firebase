@@ -3,7 +3,6 @@ package edu.galileo.android.androidchat.contactlist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.addcontact.AddContactDialogFragment;
 import edu.galileo.android.androidchat.chat.ChatActivity;
 import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.login.LoginActivity;
@@ -43,8 +43,8 @@ public class ContactListActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AddContactDialogFragment frag = new AddContactDialogFragment();
+                frag.show(getSupportFragmentManager(), "Dialog");
             }
         });
 
