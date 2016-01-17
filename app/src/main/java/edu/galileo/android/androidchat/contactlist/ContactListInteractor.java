@@ -11,4 +11,5 @@ public interface ContactListInteractor {
     void destroyContactListListener();
 
     void removeContact(String email);
+
 }

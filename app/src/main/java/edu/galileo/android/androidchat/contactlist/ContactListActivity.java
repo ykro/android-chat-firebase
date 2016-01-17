@@ -23,11 +23,12 @@ import edu.galileo.android.androidchat.login.LoginActivity;
 public class ContactListActivity extends AppCompatActivity
                                  implements ContactListView, OnItemClickListener {
 
-    @Bind(R.id.recyclerViewContacts) RecyclerView recyclerView;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.recyclerViewContacts) RecyclerView recyclerView;
 
-    private ContactListPresenter contactListPresenter;
     private ContactListAdapter adapter;
+    private ContactListPresenter contactListPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,15 @@ public class ContactListActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        contactListPresenter.onStart();
+    protected void onResume() {
+        super.onResume();
+        contactListPresenter.onResume();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        contactListPresenter.onStop();
+    protected void onPause() {
+        super.onPause();
+        contactListPresenter.onPause();
     }
 
     @Override

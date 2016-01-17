@@ -1,15 +1,19 @@
 package edu.galileo.android.androidchat.entities;
 
-import java.util.Date;
-
 /**
  * Created by ykro.
  */
 
 public class ChatMessage {
     String msg;
-    User sender;
-    Date timestamp;
+    String sender;
+
+    public ChatMessage(){}
+
+    public ChatMessage(String sender, String msg){
+        this.msg = msg;
+        this.sender = sender;
+    }
 
     public String getMsg() {
         return msg;
@@ -19,19 +23,12 @@ public class ChatMessage {
         this.msg = msg;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
 }

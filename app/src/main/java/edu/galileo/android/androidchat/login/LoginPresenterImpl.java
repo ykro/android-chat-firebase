@@ -16,7 +16,7 @@ public class LoginPresenterImpl implements LoginPresenter,
     @Override
     public void validateLogin(String email, String password) {
         if (loginView != null) {
-            loginView.disableInputs();
+            loginView.hideInputs();
             loginView.showProgress();
         }
         loginInteractor.doSignIn(email, password);
@@ -25,7 +25,7 @@ public class LoginPresenterImpl implements LoginPresenter,
     @Override
     public void registerNewUser(String email, String password) {
         if (loginView != null) {
-            loginView.disableInputs();
+            loginView.hideInputs();
             loginView.showProgress();
         }
         loginInteractor.doSignUp(email, password);
@@ -34,7 +34,7 @@ public class LoginPresenterImpl implements LoginPresenter,
     @Override
     public void checkForAuthenticatedUser() {
         if (loginView != null) {
-            loginView.disableInputs();
+            loginView.hideInputs();
             loginView.showProgress();
         }
         loginInteractor.checkAlreadyAuthenticated();
@@ -64,7 +64,7 @@ public class LoginPresenterImpl implements LoginPresenter,
         if (loginView != null) {
             loginView.loginError(error);
             loginView.hideProgress();
-            loginView.enableInputs();
+            loginView.showInputs();
         }
     }
 
@@ -73,7 +73,7 @@ public class LoginPresenterImpl implements LoginPresenter,
         if (loginView != null) {
             loginView.newUserError(error);
             loginView.hideProgress();
-            loginView.enableInputs();
+            loginView.showInputs();
         }
     }
 
@@ -81,7 +81,7 @@ public class LoginPresenterImpl implements LoginPresenter,
     public void onFailedToRecoverSession() {
         if (loginView != null) {
             loginView.hideProgress();
-            loginView.enableInputs();
+            loginView.showInputs();
         }
     }
 }

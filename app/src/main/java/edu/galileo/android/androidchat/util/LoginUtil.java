@@ -17,8 +17,9 @@ import edu.galileo.android.androidchat.login.LoginTaskFinishedListener;
  */
 public class LoginUtil {
     private User currentUser;
-
     private Firebase dataReference;
+    private BackendUtil backendUtil;
+
     private final static String USERS_PATH = "users";
 
     private static class SingletonHolder {
@@ -29,7 +30,7 @@ public class LoginUtil {
     }
 
     public LoginUtil(){
-        BackendUtil backendUtil = BackendUtil.getInstance();
+        backendUtil = BackendUtil.getInstance();
         dataReference = backendUtil.getDataReference();
     }
 
@@ -52,7 +53,7 @@ public class LoginUtil {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                String email = getAuthUserEmail();
+                String email = backendUtil.getAuthUserEmail();
                 if (email != null) {
                     Firebase userReference = getUserReference(email);
                     userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,18 +87,8 @@ public class LoginUtil {
         dataReference.unauth();
     }
 
-    public String getAuthUserEmail() {
-        AuthData authData = dataReference.getAuth();
-        String email = null;
-        if (authData != null) {
-            Map<String, Object> providerData = authData.getProviderData();
-            email = providerData.get("email").toString();
-        }
-        return email;
-    }
-
     public void registerNewUser() {
-        String email = getAuthUserEmail();
+        String email = backendUtil.getAuthUserEmail();
         if (email != null) {
             this.currentUser = new User(email, true, null);
             getUserReference(email).setValue(currentUser);
@@ -106,7 +97,7 @@ public class LoginUtil {
 
     public void checkAlreadyAuthenticated(final LoginTaskFinishedListener listener) {
         if (dataReference.getAuth() != null) {
-            String email = getAuthUserEmail();
+            String email = backendUtil.getAuthUserEmail();
             if (email != null) {
                 Firebase userReference = getUserReference(email);
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {

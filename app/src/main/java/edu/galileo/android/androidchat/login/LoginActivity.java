@@ -18,13 +18,11 @@ import edu.galileo.android.androidchat.contactlist.ContactListActivity;
 
 public class LoginActivity extends AppCompatActivity
                            implements LoginView {
-    @Bind(R.id.btnSignin) Button btnSignIn;
-    @Bind(R.id.btnSignup) Button btnSignUp;
-
-    @Bind(R.id.editTxtEmail) EditText inputEmail;
-    @Bind(R.id.editTxtPassword) EditText inputPassword;
-
-    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.btnSignin)           Button btnSignIn;
+    @Bind(R.id.btnSignup)           Button btnSignUp;
+    @Bind(R.id.editTxtEmail)        EditText inputEmail;
+    @Bind(R.id.editTxtPassword)     EditText inputPassword;
+    @Bind(R.id.progressBar)         ProgressBar progressBar;
     @Bind(R.id.layoutMainContainer) RelativeLayout container;
 
     private LoginPresenter loginPresenter;
@@ -71,13 +69,19 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    public void disableInputs() {
-        enableInputs(false);
+    public void hideInputs() {
+        btnSignIn.setVisibility(View.GONE);
+        btnSignUp.setVisibility(View.GONE);
+        inputEmail.setVisibility(View.GONE);
+        inputPassword.setVisibility(View.GONE);
     }
 
     @Override
-    public void enableInputs() {
-        enableInputs(true);
+    public void showInputs() {
+        btnSignIn.setVisibility(View.VISIBLE);
+        btnSignUp.setVisibility(View.VISIBLE);
+        inputEmail.setVisibility(View.VISIBLE);
+        inputPassword.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -103,12 +107,4 @@ public class LoginActivity extends AppCompatActivity
     public void newUserSuccess() {
         Snackbar.make(container, R.string.msg_new_user, Snackbar.LENGTH_SHORT).show();
     }
-
-    private void enableInputs(boolean status) {
-        btnSignIn.setEnabled(status);
-        btnSignUp.setEnabled(status);
-        inputEmail.setEnabled(status);
-        inputPassword.setEnabled(status);
-    }
-
 }

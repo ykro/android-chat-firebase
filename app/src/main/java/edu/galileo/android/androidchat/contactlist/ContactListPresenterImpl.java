@@ -29,19 +29,20 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
-    public void onStart() {
+    public void onResume() {
         contactListInteractor.changeConnectionStatus(User.ONLINE);
         contactListInteractor.subscribeForContactEvents();
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         contactListInteractor.changeConnectionStatus(User.OFFLINE);
         contactListInteractor.unSubscribeForContactEvents();
     }
 
     @Override
     public void onDestroy() {
+        contactListInteractor.destroyContactListListener();
         contactListView = null;
     }
 

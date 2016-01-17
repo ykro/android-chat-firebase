@@ -1,14 +1,15 @@
 package edu.galileo.android.androidchat.util;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+
+import java.util.Map;
 
 /**
  * Created by ykro.
  */
 public class BackendUtil {
     private final static String FIREBASE_URL = "https://android-chat-example.firebaseio.com";
-    private final static String CHATS_PATH = "chats";
-
     private Firebase dataReference;
 
     private static class SingletonHolder {
@@ -25,5 +26,15 @@ public class BackendUtil {
 
     public Firebase getDataReference() {
         return dataReference;
+    }
+
+    public String getAuthUserEmail() {
+        AuthData authData = dataReference.getAuth();
+        String email = null;
+        if (authData != null) {
+            Map<String, Object> providerData = authData.getProviderData();
+            email = providerData.get("email").toString();
+        }
+        return email;
     }
 }
