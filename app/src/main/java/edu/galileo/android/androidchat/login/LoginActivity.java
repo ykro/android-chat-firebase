@@ -105,6 +105,6 @@ public class LoginActivity extends AppCompatActivity
 
     @Override
     public void newUserSuccess() {
-        Snackbar.make(container, R.string.login_notice_message_newuser, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(container, R.string.login_notice_message_useradded, Snackbar.LENGTH_SHORT).show();
     }
 }

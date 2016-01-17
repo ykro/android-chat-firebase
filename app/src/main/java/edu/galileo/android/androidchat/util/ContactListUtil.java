@@ -84,9 +84,8 @@ public class ContactListUtil {
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {}
             };
-            User currentUser = loginUtil.getCurrentUser();
-            String email = currentUser.getEmail();
-            getContactsReference(email).addChildEventListener(contactListEventListener);
+
+            getContactsReference().addChildEventListener(contactListEventListener);
         }
     }
 
@@ -108,7 +107,9 @@ public class ContactListUtil {
         getOneContactReference(emailKey, currentUserEmailKey).removeValue();
     }
 
-    private Firebase getContactsReference(String email){
+    public Firebase getContactsReference(){
+        User currentUser = loginUtil.getCurrentUser();
+        String email = currentUser.getEmail();
         String key = email.replace(".","_");
         return loginUtil.getUserReference(key).child(CONTACTS_PATH);
     }

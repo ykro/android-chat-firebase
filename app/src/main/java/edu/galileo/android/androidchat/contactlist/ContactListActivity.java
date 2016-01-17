@@ -15,7 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.addcontact.AddContactDialogFragment;
+import edu.galileo.android.androidchat.addcontact.AddContactFragment;
 import edu.galileo.android.androidchat.chat.ChatActivity;
 import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.login.LoginActivity;
@@ -82,7 +82,7 @@ public class ContactListActivity extends AppCompatActivity
 
     @OnClick(R.id.fab)
     public void addContact(){
-        AddContactDialogFragment frag = new AddContactDialogFragment();
+        AddContactFragment frag = new AddContactFragment();
         frag.show(getSupportFragmentManager(), "");
     }
 

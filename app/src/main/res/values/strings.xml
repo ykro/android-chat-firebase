@@ -5,11 +5,16 @@
     <string name="login.message.password">Contraseña</string>
     <string name="login.message.signin">Iniciar sesión</string>
     <string name="login.message.signup">Crear cuenta</string>
-    <string name="login.notice.message.newuser">Usuario registrado exitosamente</string>
+    <string name="login.notice.message.useradded">Usuario registrado exitosamente</string>
     <string name="login.error.message.signin">Imposible iniciar sesión %s</string>
     <string name="login.error.message.signup">Imposible registrar nuevo usuario %s</string>
     <string name="contactlist.menu.action.signoff">Cerrar sesión</string>
     <string name="contactlist.title">Contacts</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addcontact.message.title">Agregar contacto</string>
+    <string name="addcontact.message.add">Aceptar</string>
+    <string name="addcontact.message.cancel">Cancelar</string>
+    <string name="addcontact.message.contactadded">Contacto agregado exitosamente</string>
+    <string name="addcontact.error.message">Imposible agregar %s</string>
+
 </resources>
