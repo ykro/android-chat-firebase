@@ -16,8 +16,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.entities.User;
-import edu.galileo.android.androidchat.util.AvatarUtil;
+import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.api.AvatarAPI;
 
 /**
  * Created by ykro.
@@ -57,7 +57,7 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
         holder.txtStatus.setTextColor(color);
 
         Glide.with(context.getApplicationContext())
-                .load(AvatarUtil.getAvatarUrl(email))
+                .load(AvatarAPI.getAvatarUrl(email))
                 .into(holder.imgAvatar);
     }
 

@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.util;
+package edu.galileo.android.androidchat.api;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -9,51 +9,51 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.galileo.android.androidchat.entities.User;
-import edu.galileo.android.androidchat.login.LoginTaskFinishedListener;
+import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.login.LoginEvent;
+import edu.galileo.android.androidchat.model.User;
 
 /**
  * Created by ykro.
  */
-public class LoginUtil {
+public class UserAPI {
     private User currentUser;
+    private APIHelper apiHelper;
     private Firebase dataReference;
-    private BackendUtil backendUtil;
-
     private final static String USERS_PATH = "users";
 
     private static class SingletonHolder {
-        private static final LoginUtil INSTANCE = new LoginUtil();
+        private static final UserAPI INSTANCE = new UserAPI();
     }
-    public static LoginUtil getInstance() {
+    public static UserAPI getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public LoginUtil(){
-        backendUtil = BackendUtil.getInstance();
-        dataReference = backendUtil.getDataReference();
+    public UserAPI(){
+        apiHelper = APIHelper.getInstance();
+        dataReference = apiHelper.getDataReference();
     }
 
-    public void signUp(final String email, final String password, final LoginTaskFinishedListener listener) {
+    public void signUp(final String email, final String password) {
         dataReference.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                listener.onSignUpSuccess();
-                signIn(email, password, listener);
+                postEvent(LoginEvent.onSignUpSuccess);
+                signIn(email, password);
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
-                listener.onSignUpError(firebaseError.getMessage());
+                postEvent(LoginEvent.onSignUpError, firebaseError.getMessage());
             }
         });
     }
 
-    public void signIn(String email, String password, final LoginTaskFinishedListener listener) {
+    public void signIn(String email, String password) {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                String email = backendUtil.getAuthUserEmail();
+                String email = apiHelper.getAuthUserEmail();
                 if (email != null) {
                     Firebase userReference = getUserReference(email);
                     userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -64,7 +64,7 @@ public class LoginUtil {
                                 registerNewUser();
                             }
                             changeUserConnectionStatus(User.ONLINE);
-                            listener.onSignInSuccess();
+                            postEvent(LoginEvent.onSignInSuccess);
                         }
 
                         @Override
@@ -76,10 +76,9 @@ public class LoginUtil {
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                listener.onSignInError(firebaseError.getMessage());
+                postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
             }
         });
-
     }
 
     public void signOff() {
@@ -88,16 +87,16 @@ public class LoginUtil {
     }
 
     public void registerNewUser() {
-        String email = backendUtil.getAuthUserEmail();
+        String email = apiHelper.getAuthUserEmail();
         if (email != null) {
             this.currentUser = new User(email, true, null);
             getUserReference(email).setValue(currentUser);
         }
     }
 
-    public void checkAlreadyAuthenticated(final LoginTaskFinishedListener listener) {
+    public void checkAlreadyAuthenticated() {
         if (dataReference.getAuth() != null) {
-            String email = backendUtil.getAuthUserEmail();
+            String email = apiHelper.getAuthUserEmail();
             if (email != null) {
                 Firebase userReference = getUserReference(email);
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,29 +107,29 @@ public class LoginUtil {
                             registerNewUser();
                         }
                         changeUserConnectionStatus(User.ONLINE);
-                        listener.onSignInSuccess();
+                        postEvent(LoginEvent.onSignInSuccess);
                     }
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-                        listener.onSignInError(firebaseError.getMessage());
+                        postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
                     }
                 });
             }
         } else {
-            listener.onFailedToRecoverSession();
+            postEvent(LoginEvent.onFailedToRecoverSession);
         }
     }
 
     public void changeUserConnectionStatus(boolean online) {
-        String email = backendUtil.getAuthUserEmail();
+        String email = apiHelper.getAuthUserEmail();
         Firebase userReference = getUserReference(email);
         Map<String, Object> updates = new HashMap<String, Object>();
         updates.put("online", online);
         userReference.updateChildren(updates);
 
-        ContactListUtil contactListUtil = ContactListUtil.getInstance();
-        contactListUtil.notifyContactsOfConnectionChange(online);
+        ContactListAPI contactListAPI = ContactListAPI.getInstance();
+        contactListAPI.notifyContactsOfConnectionChange(online);
     }
 
     public Firebase getUserReference(String email){
@@ -142,4 +141,16 @@ public class LoginUtil {
         return currentUser;
     }
 
+    private void postEvent(int type) {
+        postEvent(type, null);
+    }
+
+    private void postEvent(int type, String errorMessage) {
+        LoginEvent loginEvent = new LoginEvent();
+        loginEvent.setEventType(type);
+        if (errorMessage != null) {
+            loginEvent.setErrorMesage(errorMessage);
+        }
+        EventBus.getDefault().post(loginEvent);
+    }
 }

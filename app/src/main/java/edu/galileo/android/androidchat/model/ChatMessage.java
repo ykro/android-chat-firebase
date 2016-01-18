@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.entities;
+package edu.galileo.android.androidchat.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

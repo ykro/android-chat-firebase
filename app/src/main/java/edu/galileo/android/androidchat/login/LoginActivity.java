@@ -39,6 +39,18 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loginPresenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        loginPresenter.onPause();
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         loginPresenter.onDestroy();
         super.onDestroy();

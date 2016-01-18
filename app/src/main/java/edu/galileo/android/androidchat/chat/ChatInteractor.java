@@ -6,9 +6,10 @@ package edu.galileo.android.androidchat.chat;
 public interface ChatInteractor {
     void sendMessage(String msg);
 
+    void destroyChatListener();
     void subscribeForChatUpates();
     void unSubscribeForChatUpates();
-    void destroyChatListener();
+    void changeConnectionStatus(boolean online);
 
     void setSender();
     void setRecipient(String recipient);

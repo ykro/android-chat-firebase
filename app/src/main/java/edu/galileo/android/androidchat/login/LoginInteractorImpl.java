@@ -1,32 +1,30 @@
 package edu.galileo.android.androidchat.login;
 
-import edu.galileo.android.androidchat.util.LoginUtil;
+import edu.galileo.android.androidchat.api.UserAPI;
 
 /**
  * Created by ykro.
  */
 
 public class LoginInteractorImpl implements LoginInteractor {
-    private LoginUtil util;
-    private LoginTaskFinishedListener listener;
+    private UserAPI util;
 
-    public LoginInteractorImpl(LoginTaskFinishedListener listener) {
-        this.util = LoginUtil.getInstance();
-        this.listener = listener;
+    public LoginInteractorImpl() {
+        this.util = UserAPI.getInstance();
     }
 
     @Override
     public void doSignUp(final String email, final String password) {
-        util.signUp(email, password, listener);
+        util.signUp(email, password);
     }
 
     @Override
     public void doSignIn(String email, String password) {
-        util.signIn(email, password, listener);
+        util.signIn(email, password);
     }
 
     @Override
     public void checkAlreadyAuthenticated() {
-        util.checkAlreadyAuthenticated(listener);
+        util.checkAlreadyAuthenticated();
     }
 }

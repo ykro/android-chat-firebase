@@ -1,19 +1,19 @@
 package edu.galileo.android.androidchat.addcontact;
 
-import edu.galileo.android.androidchat.util.AddContactUtil;
+import edu.galileo.android.androidchat.api.AddContactAPI;
 
 /**
  * Created by ykro.
  */
 public class AddContactInteractorImpl implements AddContactInteractor {
-    AddContactUtil addContactUtil;
+    AddContactAPI addContactAPI;
 
     public AddContactInteractorImpl() {
-        this.addContactUtil = AddContactUtil.getInstance();
+        this.addContactAPI = AddContactAPI.getInstance();
     }
 
     @Override
     public void addContact(String email) {
-        addContactUtil.addContact(email);
+        addContactAPI.addContact(email);
     }
 }

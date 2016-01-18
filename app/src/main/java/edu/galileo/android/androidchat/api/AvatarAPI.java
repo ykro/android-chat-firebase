@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.util;
+package edu.galileo.android.androidchat.api;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by ykro.
  */
-public class AvatarUtil {
+public class AvatarAPI {
     private final static String GRAVATAR_URL = "http://www.gravatar.com/avatar/";
 
     public static String getAvatarUrl(String username) {

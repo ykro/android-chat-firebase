@@ -1,49 +1,49 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import edu.galileo.android.androidchat.util.ContactListUtil;
-import edu.galileo.android.androidchat.util.LoginUtil;
+import edu.galileo.android.androidchat.api.ContactListAPI;
+import edu.galileo.android.androidchat.api.UserAPI;
 
 /**
  * Created by ykro.
  */
 public class ContactListInteractorImpl implements ContactListInteractor {
-    LoginUtil loginUtil;
-    ContactListUtil contactListUtil;
+    UserAPI userAPI;
+    ContactListAPI contactListAPI;
     ContactListTaskFinishedListener listener;
 
     public ContactListInteractorImpl(ContactListTaskFinishedListener listener) {
         this.listener = listener;
-        this.loginUtil = LoginUtil.getInstance();
-        this.contactListUtil = ContactListUtil.getInstance();
+        this.userAPI = UserAPI.getInstance();
+        this.contactListAPI = ContactListAPI.getInstance();
     }
 
     @Override
     public void signOff() {
-        loginUtil.signOff();
+        userAPI.signOff();
     }
 
     @Override
     public void changeConnectionStatus(boolean online) {
-        loginUtil.changeUserConnectionStatus(online);
+        userAPI.changeUserConnectionStatus(online);
     }
 
     @Override
     public void subscribeForContactEvents() {
-        contactListUtil.subscribeForContactListUpdates(listener);
+        contactListAPI.subscribeForContactListUpdates(listener);
     }
 
     @Override
     public void unSubscribeForContactEvents() {
-        contactListUtil.unSubscribeForContactListUpdates();
+        contactListAPI.unSubscribeForContactListUpdates();
     }
 
     @Override
     public void destroyContactListListener() {
-        contactListUtil.destroyContactListListener();
+        contactListAPI.destroyContactListListener();
     }
 
     @Override
     public void removeContact(String email) {
-        contactListUtil.removeContact(email);
+        contactListAPI.removeContact(email);
     }
 }

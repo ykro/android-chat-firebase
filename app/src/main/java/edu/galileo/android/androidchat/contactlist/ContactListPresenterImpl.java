@@ -1,6 +1,6 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.model.User;
 
 /**
  * Created by ykro.

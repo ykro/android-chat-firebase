@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.util;
+package edu.galileo.android.androidchat.api;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -7,14 +7,14 @@ import com.firebase.client.FirebaseError;
 
 import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.chat.ChatMessageEvent;
-import edu.galileo.android.androidchat.entities.ChatMessage;
+import edu.galileo.android.androidchat.model.ChatMessage;
 
 /**
  * Created by ykro.
  */
-public class ChatUtil {
+public class ChatAPI {
     private Firebase dataReference;
-    private BackendUtil backendUtil;
+    private APIHelper apiHelper;
     private ChildEventListener chatEventListener;
 
     private final static String SEPARATOR = "___";
@@ -23,15 +23,15 @@ public class ChatUtil {
     private String sender, receiver;
 
     private static class SingletonHolder {
-        private static final ChatUtil INSTANCE = new ChatUtil();
+        private static final ChatAPI INSTANCE = new ChatAPI();
     }
-    public static ChatUtil getInstance() {
+    public static ChatAPI getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public ChatUtil(){
-        backendUtil = BackendUtil.getInstance();
-        dataReference = backendUtil.getDataReference();
+    public ChatAPI(){
+        apiHelper = APIHelper.getInstance();
+        dataReference = apiHelper.getDataReference();
     }
 
     public void setReceiver(String receiver) {
@@ -39,7 +39,7 @@ public class ChatUtil {
     }
 
     public void setSender() {
-        this.sender = backendUtil.getAuthUserEmail();
+        this.sender = apiHelper.getAuthUserEmail();
     }
 
     public void subscribeForChatUpates() {
