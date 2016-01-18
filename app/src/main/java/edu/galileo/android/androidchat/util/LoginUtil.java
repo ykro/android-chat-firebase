@@ -123,7 +123,7 @@ public class LoginUtil {
     }
 
     public void changeUserConnectionStatus(boolean online) {
-        String email = currentUser.getEmail();
+        String email = backendUtil.getAuthUserEmail();
         Firebase userReference = getUserReference(email);
         Map<String, Object> updates = new HashMap<String, Object>();
         updates.put("online", online);
@@ -141,4 +141,5 @@ public class LoginUtil {
     public User getCurrentUser() {
         return currentUser;
     }
+
 }
