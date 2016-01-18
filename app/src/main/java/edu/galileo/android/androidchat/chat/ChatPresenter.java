@@ -12,7 +12,7 @@ public interface ChatPresenter {
     void setChatRecipient(String recipient);
 
     void sendMessage(String msg);
-    void onEvent(ChatMessageEvent event);
+    void onEvent(ChatEvent event);
 
 
 }

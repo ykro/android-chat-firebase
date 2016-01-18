@@ -6,7 +6,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import de.greenrobot.event.EventBus;
-import edu.galileo.android.androidchat.chat.ChatMessageEvent;
+import edu.galileo.android.androidchat.chat.ChatEvent;
 import edu.galileo.android.androidchat.model.ChatMessage;
 
 /**
@@ -53,8 +53,8 @@ public class ChatAPI {
                     msgSender = msgSender.replace("_",".");
                     chatMessage.setSentByMe(msgSender.equals(sender));
 
-                    ChatMessageEvent chatMessageEvent = new ChatMessageEvent(chatMessage);
-                    EventBus.getDefault().post(chatMessageEvent);
+                    ChatEvent chatEvent = new ChatEvent(chatMessage);
+                    EventBus.getDefault().post(chatEvent);
                 }
 
                 @Override

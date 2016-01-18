@@ -123,13 +123,16 @@ public class UserAPI {
 
     public void changeUserConnectionStatus(boolean online) {
         String email = apiHelper.getAuthUserEmail();
-        Firebase userReference = getUserReference(email);
-        Map<String, Object> updates = new HashMap<String, Object>();
-        updates.put("online", online);
-        userReference.updateChildren(updates);
+        if (email != null) {
+            Firebase userReference = getUserReference(email);
+            Map<String, Object> updates = new HashMap<String, Object>();
+            updates.put("online", online);
+            userReference.updateChildren(updates);
 
-        ContactListAPI contactListAPI = ContactListAPI.getInstance();
-        contactListAPI.notifyContactsOfConnectionChange(online);
+            ContactListAPI contactListAPI = ContactListAPI.getInstance();
+            contactListAPI.notifyContactsOfConnectionChange(online);
+
+        }
     }
 
     public Firebase getUserReference(String email){

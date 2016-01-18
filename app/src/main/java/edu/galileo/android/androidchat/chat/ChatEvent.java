@@ -5,10 +5,10 @@ import edu.galileo.android.androidchat.model.ChatMessage;
 /**
  * Created by ykro.
  */
-public class ChatMessageEvent {
+public class ChatEvent {
     ChatMessage msg;
 
-    public ChatMessageEvent(ChatMessage msg) {
+    public ChatEvent(ChatMessage msg) {
         this.msg = msg;
     }
 

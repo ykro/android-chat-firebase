@@ -6,6 +6,7 @@ package edu.galileo.android.androidchat.login;
 public interface LoginPresenter {
     void onPause();
     void onResume();
+    void onCreate();
     void onDestroy();
     void onEvent(LoginEvent event);
     void checkForAuthenticatedUser();

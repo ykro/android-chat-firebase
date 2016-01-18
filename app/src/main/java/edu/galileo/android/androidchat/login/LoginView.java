@@ -4,8 +4,8 @@ package edu.galileo.android.androidchat.login;
  * Created by ykro.
  */
 public interface LoginView {
-    void showInputs();
-    void hideInputs();
+    void enableInputs();
+    void disableInputs();
     void showProgress();
     void hideProgress();
 

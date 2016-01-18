@@ -17,7 +17,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void validateLogin(String email, String password) {
         if (loginView != null) {
-            loginView.hideInputs();
+            loginView.disableInputs();
             loginView.showProgress();
         }
         loginInteractor.doSignIn(email, password);
@@ -26,7 +26,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void registerNewUser(String email, String password) {
         if (loginView != null) {
-            loginView.hideInputs();
+            loginView.disableInputs();
             loginView.showProgress();
         }
         loginInteractor.doSignUp(email, password);
@@ -35,9 +35,10 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void checkForAuthenticatedUser() {
         if (loginView != null) {
-            loginView.hideInputs();
+            loginView.disableInputs();
             loginView.showProgress();
         }
+
         loginInteractor.checkAlreadyAuthenticated();
     }
 
@@ -47,8 +48,15 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void onResume() {
+    public void onCreate() {
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -91,24 +99,24 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     private void onSignInError(String error) {
         if (loginView != null) {
-            loginView.loginError(error);
             loginView.hideProgress();
-            loginView.showInputs();
+            loginView.enableInputs();
+            loginView.loginError(error);
         }
     }
 
     private void onSignUpError(String error) {
         if (loginView != null) {
-            loginView.newUserError(error);
             loginView.hideProgress();
-            loginView.showInputs();
+            loginView.enableInputs();
+            loginView.newUserError(error);
         }
     }
 
     private void onFailedToRecoverSession() {
         if (loginView != null) {
             loginView.hideProgress();
-            loginView.showInputs();
+            loginView.enableInputs();
         }
     }
 }

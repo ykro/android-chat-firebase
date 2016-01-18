@@ -34,8 +34,8 @@ public class LoginActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         loginPresenter = new LoginPresenterImpl(this);
+        loginPresenter.onCreate();
         loginPresenter.checkForAuthenticatedUser();
-
     }
 
     @Override
@@ -44,10 +44,11 @@ public class LoginActivity extends AppCompatActivity
         loginPresenter.onResume();
     }
 
+
     @Override
     protected void onPause() {
-        loginPresenter.onPause();
         super.onPause();
+        loginPresenter.onPause();
     }
 
     @Override
@@ -81,19 +82,13 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    public void hideInputs() {
-        btnSignIn.setVisibility(View.GONE);
-        btnSignUp.setVisibility(View.GONE);
-        inputEmail.setVisibility(View.GONE);
-        inputPassword.setVisibility(View.GONE);
+    public void disableInputs() {
+        setInputs(false);
     }
 
     @Override
-    public void showInputs() {
-        btnSignIn.setVisibility(View.VISIBLE);
-        btnSignUp.setVisibility(View.VISIBLE);
-        inputEmail.setVisibility(View.VISIBLE);
-        inputPassword.setVisibility(View.VISIBLE);
+    public void enableInputs() {
+        setInputs(true);
     }
 
     @Override
@@ -118,5 +113,12 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void newUserSuccess() {
         Snackbar.make(container, R.string.login_notice_message_useradded, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void setInputs(boolean enabled){
+        btnSignIn.setEnabled(true);
+        btnSignUp.setEnabled(true);
+        inputEmail.setEnabled(true);
+        inputPassword.setEnabled(true);
     }
 }
