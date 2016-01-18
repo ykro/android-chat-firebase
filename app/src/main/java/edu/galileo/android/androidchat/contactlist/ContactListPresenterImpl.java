@@ -1,18 +1,18 @@
 package edu.galileo.android.androidchat.contactlist;
 
+import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.model.User;
 
 /**
  * Created by ykro.
  */
-public class ContactListPresenterImpl implements ContactListPresenter,
-                                                 ContactListTaskFinishedListener {
+public class ContactListPresenterImpl implements ContactListPresenter {
     ContactListView contactListView;
     ContactListInteractor contactListInteractor;
 
     public ContactListPresenterImpl(ContactListView contactListView){
         this.contactListView = contactListView;
-        this.contactListInteractor = new ContactListInteractorImpl(this);
+        this.contactListInteractor = new ContactListInteractorImpl();
     }
 
     @Override
@@ -29,6 +29,11 @@ public class ContactListPresenterImpl implements ContactListPresenter,
     }
 
     @Override
+    public void onCreate() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onResume() {
         contactListInteractor.changeConnectionStatus(User.ONLINE);
         contactListInteractor.subscribeForContactEvents();
@@ -42,25 +47,39 @@ public class ContactListPresenterImpl implements ContactListPresenter,
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         contactListInteractor.destroyContactListListener();
         contactListView = null;
     }
 
     @Override
+    public void onEvent(ContactListEvent event) {
+        User user = event.getUser();
+        switch (event.getEventType()) {
+            case ContactListEvent.onContactAdded:
+                onContactAdded(user);
+                break;
+            case ContactListEvent.onContactChanged:
+                onContactChanged(user);
+                break;
+            case ContactListEvent.onContactRemoved:
+                onContactRemoved(user);
+                break;
+        }
+    }
+
     public void onContactAdded(User user) {
         if (contactListView != null) {
             contactListView.onContactAdded(user);
         }
     }
 
-    @Override
     public void onContactChanged(User user) {
         if (contactListView != null) {
             contactListView.onContactChanged(user);
         }
     }
 
-    @Override
     public void onContactRemoved(User user) {
         if (contactListView != null) {
             contactListView.onContactRemoved(user);

@@ -20,13 +20,9 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     }
 
     @Override
-    public void onCancel() {
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onDestroy() {
         addContactView = null;
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

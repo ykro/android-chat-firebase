@@ -5,7 +5,6 @@ package edu.galileo.android.androidchat.addcontact;
  */
 public interface AddContactPresenter {
     void onShow();
-    void onCancel();
     void onDestroy();
 
     void addContact(String email);

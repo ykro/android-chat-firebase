@@ -61,29 +61,8 @@ public class AddContactFragment extends DialogFragment
     @Override
     public void onStart() {
         super.onStart();
-        /*
-        final AlertDialog dialog = (AlertDialog) getDialog();
-        if (dialog != null) {
-
-            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-            Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
-
-            positiveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addContactPresenter.addContact(inputEmail.getText().toString());
-                }
-            });
-
-            negativeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismiss();
-                }
-            });
-        }
-        */
     }
+
     @Override
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
@@ -107,12 +86,6 @@ public class AddContactFragment extends DialogFragment
             });
         }
         addContactPresenter.onShow();
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        addContactPresenter.onCancel();
     }
 
     @Override

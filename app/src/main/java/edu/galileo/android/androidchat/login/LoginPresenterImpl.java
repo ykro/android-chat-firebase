@@ -43,25 +43,14 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void onPause() {
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onCreate() {
         EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onResume() {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
     public void onDestroy() {
         loginView = null;
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

@@ -25,13 +25,13 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void onPause() {
-        EventBus.getDefault().unregister(this);
         chatInteractor.unSubscribeForChatUpates();
         chatInteractor.changeConnectionStatus(User.OFFLINE);
     }
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         chatInteractor.destroyChatListener();
         chatView = null;
     }

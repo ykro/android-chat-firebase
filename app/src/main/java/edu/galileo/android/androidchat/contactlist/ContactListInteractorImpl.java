@@ -9,10 +9,8 @@ import edu.galileo.android.androidchat.api.UserAPI;
 public class ContactListInteractorImpl implements ContactListInteractor {
     UserAPI userAPI;
     ContactListAPI contactListAPI;
-    ContactListTaskFinishedListener listener;
 
-    public ContactListInteractorImpl(ContactListTaskFinishedListener listener) {
-        this.listener = listener;
+    public ContactListInteractorImpl() {
         this.userAPI = UserAPI.getInstance();
         this.contactListAPI = ContactListAPI.getInstance();
     }
@@ -29,7 +27,7 @@ public class ContactListInteractorImpl implements ContactListInteractor {
 
     @Override
     public void subscribeForContactEvents() {
-        contactListAPI.subscribeForContactListUpdates(listener);
+        contactListAPI.subscribeForContactListUpdates();
     }
 
     @Override

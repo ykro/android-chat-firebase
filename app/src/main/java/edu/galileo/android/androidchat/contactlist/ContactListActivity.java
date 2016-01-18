@@ -38,6 +38,7 @@ public class ContactListActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         contactListPresenter = new ContactListPresenterImpl(this);
+        contactListPresenter.onCreate();
 
         adapter = new ContactListAdapter(this, new ArrayList<User>(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

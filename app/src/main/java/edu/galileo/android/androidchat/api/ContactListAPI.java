@@ -7,7 +7,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-import edu.galileo.android.androidchat.contactlist.ContactListTaskFinishedListener;
+import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.contactlist.ContactListEvent;
 import edu.galileo.android.androidchat.model.User;
 
 /**
@@ -47,7 +48,7 @@ public class ContactListAPI {
         }
     }
 
-    public void subscribeForContactListUpdates(final ContactListTaskFinishedListener listener){
+    public void subscribeForContactListUpdates(){
         if (contactListEventListener == null) {
             contactListEventListener = new ChildEventListener() {
                 @Override
@@ -56,7 +57,7 @@ public class ContactListAPI {
                     email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
-                    listener.onContactAdded(user);
+                    postEvent(ContactListEvent.onContactAdded, user);
                 }
 
                 @Override
@@ -65,7 +66,7 @@ public class ContactListAPI {
                     email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
-                    listener.onContactChanged(user);
+                    postEvent(ContactListEvent.onContactChanged, user);
                 }
 
                 @Override
@@ -74,7 +75,7 @@ public class ContactListAPI {
                     email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
                     User user = new User(email, online, null);
-                    listener.onContactRemoved(user);
+                    postEvent(ContactListEvent.onContactRemoved, user);
                 }
 
                 @Override
@@ -124,4 +125,10 @@ public class ContactListAPI {
         return userAPI.getUserReference(mainKey).child(CONTACTS_PATH).child(childKey);
     }
 
+    private void postEvent(int type, User user) {
+        ContactListEvent contactListEvent = new ContactListEvent();
+        contactListEvent.setEventType(type);
+        contactListEvent.setUser(user);
+        EventBus.getDefault().post(contactListEvent);
+    }
 }
