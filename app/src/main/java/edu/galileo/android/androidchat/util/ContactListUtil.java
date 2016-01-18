@@ -17,7 +17,7 @@ public class ContactListUtil {
     private LoginUtil loginUtil;
     private Firebase dataReference;
     private ChildEventListener contactListEventListener;
-    private final static String CONTACTS_PATH = "contacts";
+    public final static String CONTACTS_PATH = "contacts";
 
     private static class SingletonHolder {
         private static final ContactListUtil INSTANCE = new ContactListUtil();
@@ -85,7 +85,7 @@ public class ContactListUtil {
                 public void onCancelled(FirebaseError firebaseError) {}
             };
 
-            getContactsReference().addChildEventListener(contactListEventListener);
+            getMyContactsReference().addChildEventListener(contactListEventListener);
         }
     }
 
@@ -107,9 +107,13 @@ public class ContactListUtil {
         getOneContactReference(emailKey, currentUserEmailKey).removeValue();
     }
 
-    public Firebase getContactsReference(){
+    public Firebase getMyContactsReference(){
         User currentUser = loginUtil.getCurrentUser();
         String email = currentUser.getEmail();
+        return getContactsReference(email);
+    }
+
+    public Firebase getContactsReference(String email){
         String key = email.replace(".","_");
         return loginUtil.getUserReference(key).child(CONTACTS_PATH);
     }

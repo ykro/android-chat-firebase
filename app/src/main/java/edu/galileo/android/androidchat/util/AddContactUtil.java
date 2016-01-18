@@ -23,10 +23,10 @@ public class AddContactUtil {
     public AddContactUtil(){
     }
 
-    public void addContact(String email) {
+    public void addContact(final String email) {
         final String key = email.replace(".","_");
-        LoginUtil loginUtil = LoginUtil.getInstance();
-        Firebase userReference = loginUtil.getUserReference(email);
+        final LoginUtil loginUtil = LoginUtil.getInstance();
+        final Firebase userReference = loginUtil.getUserReference(email);
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -36,12 +36,18 @@ public class AddContactUtil {
                     boolean online = user.isOnline();
 
                     ContactListUtil contactListUtil = ContactListUtil.getInstance();
-                    Firebase userContactsReference = contactListUtil.getContactsReference();
+                    Firebase userContactsReference = contactListUtil.getMyContactsReference();
                     userContactsReference.child(key).setValue(online);
+
+                    User currentUser = loginUtil.getCurrentUser();
+                    String currentUserEmailKey = currentUser.getEmail();
+                    currentUserEmailKey = currentUserEmailKey.replace(".","_");
+                    Firebase reverseUserContactsReference = contactListUtil.getContactsReference(email);
+                    reverseUserContactsReference.child(currentUserEmailKey).setValue(true);
                 } else {
                     event.setError(true);
-                    EventBus.getDefault().post(event);
                 }
+                EventBus.getDefault().post(event);
             }
 
             @Override

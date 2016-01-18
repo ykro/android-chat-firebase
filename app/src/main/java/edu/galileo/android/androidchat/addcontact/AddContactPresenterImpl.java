@@ -1,7 +1,5 @@
 package edu.galileo.android.androidchat.addcontact;
 
-import android.util.Log;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -17,12 +15,12 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     }
 
     @Override
-    public void onResume() {
+    public void onShow() {
         EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onPause() {
+    public void onCancel() {
         EventBus.getDefault().unregister(this);
     }
 
@@ -40,9 +38,7 @@ public class AddContactPresenterImpl implements AddContactPresenter {
 
     @Override
     public void onEvent(AddContactEvent event) {
-        Log.e("ASDF","evento");
         if (addContactView != null) {
-            Log.e("ASDF","hay vista");
             addContactView.hideProgress();
             addContactView.showInput();
 

@@ -4,16 +4,15 @@ package edu.galileo.android.androidchat.addcontact;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,12 +22,11 @@ import edu.galileo.android.androidchat.R;
  * A simple {@link Fragment} subclass.
  */
 public class AddContactFragment extends DialogFragment
-                                implements  AddContactView {
+                                implements  AddContactView,
+                                            DialogInterface.OnShowListener {
 
     @Bind(R.id.editTxtEmail)        EditText inputEmail;
     @Bind(R.id.progressBar)         ProgressBar progressBar;
-    @Bind(R.id.layoutMainContainer) RelativeLayout container;
-
     private AddContactPresenter addContactPresenter;
 
     public AddContactFragment() {
@@ -40,26 +38,87 @@ public class AddContactFragment extends DialogFragment
         AlertDialog.Builder builder =  new  AlertDialog.Builder(getActivity())
                 .setTitle(R.string.addcontact_message_title)
                 .setPositiveButton(R.string.addcontact_message_add,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                addContactPresenter.addContact(inputEmail.getText().toString());
-                            }
-                        }
-                )
+                                   new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {}
+                })
                 .setNegativeButton(R.string.addcontact_message_cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
-                );
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {}
+                });
 
         LayoutInflater i = getActivity().getLayoutInflater();
         View view = i.inflate(R.layout.fragment_add_contact_dialog,null);
         ButterKnife.bind(this, view);
-
         builder.setView(view);
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(this);
+
+        return dialog;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        /*
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null) {
+
+            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addContactPresenter.addContact(inputEmail.getText().toString());
+                }
+            });
+
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
+        */
+    }
+    @Override
+    public void onShow(DialogInterface dialogInterface) {
+        final AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null) {
+
+            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addContactPresenter.addContact(inputEmail.getText().toString());
+                }
+            });
+
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
+        addContactPresenter.onShow();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        addContactPresenter.onCancel();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        addContactPresenter.onDestroy();
     }
 
     @Override
@@ -84,8 +143,8 @@ public class AddContactFragment extends DialogFragment
 
     @Override
     public void contactAdded() {
-        Log.e("ASDF","agregado");
-        Snackbar.make(container, R.string.addcontact_message_contactadded, Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.addcontact_message_contactadded,Toast.LENGTH_SHORT).show();
+        dismiss();
     }
 
     @Override

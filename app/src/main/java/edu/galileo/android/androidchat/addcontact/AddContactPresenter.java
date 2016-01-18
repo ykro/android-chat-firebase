@@ -4,8 +4,8 @@ package edu.galileo.android.androidchat.addcontact;
  * Created by ykro.
  */
 public interface AddContactPresenter {
-    void onPause();
-    void onResume();
+    void onShow();
+    void onCancel();
     void onDestroy();
 
     void addContact(String email);
