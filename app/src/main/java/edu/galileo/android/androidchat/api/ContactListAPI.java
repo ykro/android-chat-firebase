@@ -7,8 +7,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.contactlist.ContactListEvent;
+import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.model.User;
 
 /**
@@ -129,6 +129,7 @@ public class ContactListAPI {
         ContactListEvent contactListEvent = new ContactListEvent();
         contactListEvent.setEventType(type);
         contactListEvent.setUser(user);
-        EventBus.getDefault().post(contactListEvent);
+        EventBus eventBus = EventBus.getInstance();
+        eventBus.post(contactListEvent);
     }
 }

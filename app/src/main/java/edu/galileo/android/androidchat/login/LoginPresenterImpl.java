@@ -1,16 +1,18 @@
 package edu.galileo.android.androidchat.login;
 
-import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.lib.EventBus;
 
 /**
  * Created by ykro.
  */
 public class LoginPresenterImpl implements LoginPresenter {
+    EventBus eventBus;
     LoginView loginView;
     LoginInteractor loginInteractor;
 
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
+        this.eventBus = EventBus.getInstance();
         this.loginInteractor = new LoginInteractorImpl();
     }
 
@@ -44,13 +46,13 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void onCreate() {
-        EventBus.getDefault().register(this);
+        eventBus.register(this);
     }
 
     @Override
     public void onDestroy() {
         loginView = null;
-        EventBus.getDefault().unregister(this);
+        eventBus.unregister(this);
     }
 
     @Override

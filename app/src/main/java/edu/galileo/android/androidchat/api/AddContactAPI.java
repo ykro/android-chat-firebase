@@ -5,8 +5,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.addcontact.AddContactEvent;
+import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.model.User;
 
 /**
@@ -47,7 +47,8 @@ public class AddContactAPI {
                 } else {
                     event.setError(true);
                 }
-                EventBus.getDefault().post(event);
+                EventBus eventBus = EventBus.getInstance();
+                eventBus.post(event);
             }
 
             @Override

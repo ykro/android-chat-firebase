@@ -1,6 +1,6 @@
 package edu.galileo.android.androidchat.chat;
 
-import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.model.ChatMessage;
 import edu.galileo.android.androidchat.model.User;
 
@@ -8,17 +8,19 @@ import edu.galileo.android.androidchat.model.User;
  * Created by ykro.
  */
 public class ChatPresenterImpl implements ChatPresenter {
+    EventBus eventBus;
     ChatView chatView;
     ChatInteractor chatInteractor;
 
     public ChatPresenterImpl(ChatView chatView){
         this.chatView = chatView;
+        this.eventBus = EventBus.getInstance();
         this.chatInteractor = new ChatInteractorImpl();
     }
 
     @Override
     public void onResume() {
-        EventBus.getDefault().register(this);
+        eventBus.register(this);
         chatInteractor.subscribeForChatUpates();
         chatInteractor.changeConnectionStatus(User.ONLINE);
     }
@@ -31,7 +33,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        eventBus.unregister(this);
         chatInteractor.destroyChatListener();
         chatView = null;
     }

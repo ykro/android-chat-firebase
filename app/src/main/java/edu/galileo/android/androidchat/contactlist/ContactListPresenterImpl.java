@@ -1,16 +1,18 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.lib.EventBus;
 
 /**
  * Created by ykro.
  */
 public class ContactListPresenterImpl implements ContactListPresenter {
+    EventBus eventBus;
     ContactListView contactListView;
     ContactListInteractor contactListInteractor;
 
     public ContactListPresenterImpl(ContactListView contactListView){
+        this.eventBus = EventBus.getInstance();
         this.contactListView = contactListView;
         this.contactListInteractor = new ContactListInteractorImpl();
     }
@@ -30,7 +32,7 @@ public class ContactListPresenterImpl implements ContactListPresenter {
 
     @Override
     public void onCreate() {
-        EventBus.getDefault().register(this);
+        eventBus.register(this);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ContactListPresenterImpl implements ContactListPresenter {
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        eventBus.unregister(this);
         contactListInteractor.destroyContactListListener();
         contactListView = null;
     }

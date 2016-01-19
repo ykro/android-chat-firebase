@@ -9,7 +9,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.login.LoginEvent;
 import edu.galileo.android.androidchat.model.User;
 
@@ -154,6 +154,8 @@ public class UserAPI {
         if (errorMessage != null) {
             loginEvent.setErrorMesage(errorMessage);
         }
-        EventBus.getDefault().post(loginEvent);
+
+        EventBus eventBus = EventBus.getInstance();
+        eventBus.post(loginEvent);
     }
 }

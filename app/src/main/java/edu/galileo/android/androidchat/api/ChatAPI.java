@@ -5,8 +5,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import de.greenrobot.event.EventBus;
 import edu.galileo.android.androidchat.chat.ChatEvent;
+import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.model.ChatMessage;
 
 /**
@@ -54,7 +54,8 @@ public class ChatAPI {
                     chatMessage.setSentByMe(msgSender.equals(sender));
 
                     ChatEvent chatEvent = new ChatEvent(chatMessage);
-                    EventBus.getDefault().post(chatEvent);
+                    EventBus eventBus = EventBus.getInstance();
+                    eventBus.post(chatEvent);
                 }
 
                 @Override

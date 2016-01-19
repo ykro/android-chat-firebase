@@ -1,28 +1,30 @@
 package edu.galileo.android.androidchat.addcontact;
 
-import de.greenrobot.event.EventBus;
+import edu.galileo.android.androidchat.lib.EventBus;
 
 /**
  * Created by ykro.
  */
 public class AddContactPresenterImpl implements AddContactPresenter {
+    EventBus eventBus;
     AddContactView addContactView;
     AddContactInteractor addContactInteractor;
 
     public AddContactPresenterImpl(AddContactView addContactView) {
+        this.eventBus = EventBus.getInstance();
         this.addContactView = addContactView;
         this.addContactInteractor = new AddContactInteractorImpl();
     }
 
     @Override
     public void onShow() {
-        EventBus.getDefault().register(this);
+        eventBus.register(this);
     }
 
     @Override
     public void onDestroy() {
         addContactView = null;
-        EventBus.getDefault().unregister(this);
+        eventBus.unregister(this);
     }
 
     @Override

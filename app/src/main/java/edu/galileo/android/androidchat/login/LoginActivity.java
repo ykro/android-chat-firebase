@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity
 
     @Override
     public void navigateToMainScreen() {
-        startActivity(new Intent(this, ContactListActivity.class));
+        startActivity( new Intent(this, ContactListActivity.class));
     }
 
     @Override
