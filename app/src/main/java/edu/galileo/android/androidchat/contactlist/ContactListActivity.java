@@ -17,7 +17,7 @@ import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.addcontact.AddContactFragment;
 import edu.galileo.android.androidchat.chat.ChatActivity;
-import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.login.LoginActivity;
 
 public class ContactListActivity extends AppCompatActivity

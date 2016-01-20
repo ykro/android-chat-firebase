@@ -5,9 +5,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import edu.galileo.android.androidchat.chat.ChatEvent;
+import edu.galileo.android.androidchat.events.ChatEvent;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.model.ChatMessage;
+import edu.galileo.android.androidchat.entities.ChatMessage;
 
 /**
  * Created by ykro.

@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.model.ChatMessage;
+import edu.galileo.android.androidchat.entities.ChatMessage;
 
 /**
  * Created by ykro.

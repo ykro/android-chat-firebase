@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.model.ChatMessage;
+import edu.galileo.android.androidchat.entities.ChatMessage;
 import edu.galileo.android.androidchat.api.AvatarAPI;
 
 public class ChatActivity extends AppCompatActivity

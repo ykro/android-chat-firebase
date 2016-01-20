@@ -5,9 +5,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import edu.galileo.android.androidchat.addcontact.AddContactEvent;
+import edu.galileo.android.androidchat.events.AddContactEvent;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by ykro.

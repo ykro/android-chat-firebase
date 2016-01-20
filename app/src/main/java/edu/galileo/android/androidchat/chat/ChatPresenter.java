@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.chat;
 
+import edu.galileo.android.androidchat.events.ChatEvent;
+
 /**
  * Created by ykro.
  */

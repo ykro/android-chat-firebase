@@ -16,7 +16,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.AndroidChatApplication;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.api.AvatarAPI;
-import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by ykro.

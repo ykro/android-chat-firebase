@@ -7,9 +7,9 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-import edu.galileo.android.androidchat.contactlist.ContactListEvent;
+import edu.galileo.android.androidchat.events.ContactListEvent;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.model.User;
+import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by ykro.

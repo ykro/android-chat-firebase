@@ -1,5 +1,6 @@
 package edu.galileo.android.androidchat.login;
 
+import edu.galileo.android.androidchat.events.LoginEvent;
 import edu.galileo.android.androidchat.lib.EventBus;
 
 /**
