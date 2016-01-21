@@ -1,6 +1,5 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import edu.galileo.android.androidchat.events.ContactListEvent;
 import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
 

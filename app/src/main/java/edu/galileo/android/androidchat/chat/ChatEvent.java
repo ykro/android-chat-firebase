@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.events;
+package edu.galileo.android.androidchat.chat;
 
 import edu.galileo.android.androidchat.entities.ChatMessage;
 

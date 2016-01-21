@@ -1,6 +1,5 @@
 package edu.galileo.android.androidchat.chat;
 
-import edu.galileo.android.androidchat.events.ChatEvent;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.entities.ChatMessage;
 import edu.galileo.android.androidchat.entities.User;

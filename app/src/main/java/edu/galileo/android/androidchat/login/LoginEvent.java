@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.events;
+package edu.galileo.android.androidchat.login;
 
 /**
  * Created by ykro.

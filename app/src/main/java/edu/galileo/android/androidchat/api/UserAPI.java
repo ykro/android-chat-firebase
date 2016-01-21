@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.events.LoginEvent;
+import edu.galileo.android.androidchat.login.LoginEvent;
 import edu.galileo.android.androidchat.entities.User;
 
 /**
