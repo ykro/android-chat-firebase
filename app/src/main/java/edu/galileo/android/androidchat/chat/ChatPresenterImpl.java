@@ -55,7 +55,7 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void onEvent(ChatEvent event) {
+    public void onEventMainThread(ChatEvent event) {
         if (chatView != null) {
             ChatMessage msg = event.getMessage();
             chatView.onMessageReceived(msg);

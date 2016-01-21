@@ -13,26 +13,26 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import edu.galileo.android.androidchat.AndroidChatApplication;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.api.AvatarAPI;
 import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.lib.ImageLoading;
 
 /**
  * Created by ykro.
  */
 public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter.ViewHolder> {
-    private Context context;
     private List<User> contactList;
+    private ImageLoading imageLoadingHelper;
     private OnItemClickListener clickListener;
 
     public ContactListAdapter(Context context,
                               List<User> contactList,
                               OnItemClickListener clickListener) {
 
-        this.context = context;
         this.contactList = contactList;
         this.clickListener = clickListener;
+        this.imageLoadingHelper = new ImageLoading(context);
     }
 
     @Override
@@ -55,10 +55,7 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
         holder.txtStatus.setText(status);
         holder.txtStatus.setTextColor(color);
 
-        AndroidChatApplication app = (AndroidChatApplication)
-                                        context.getApplicationContext();
-
-        app.loadImage(AvatarAPI.getAvatarUrl(email), holder.imgAvatar);
+        imageLoadingHelper.loadImage(AvatarAPI.getAvatarUrl(email), holder.imgAvatar);
     }
 
     @Override

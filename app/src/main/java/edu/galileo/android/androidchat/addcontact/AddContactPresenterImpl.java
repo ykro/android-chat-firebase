@@ -36,7 +36,7 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     }
 
     @Override
-    public void onEvent(AddContactEvent event) {
+    public void onEventMainThread(AddContactEvent event) {
         if (addContactView != null) {
             addContactView.hideProgress();
             addContactView.showInput();

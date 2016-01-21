@@ -10,6 +10,6 @@ public interface AddContactPresenter {
     void onDestroy();
 
     void addContact(String email);
-    void onEvent(AddContactEvent event);
+    void onEventMainThread(AddContactEvent event);
 }
 

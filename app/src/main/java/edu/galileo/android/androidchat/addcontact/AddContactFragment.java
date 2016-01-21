@@ -59,11 +59,6 @@ public class AddContactFragment extends DialogFragment
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onShow(DialogInterface dialogInterface) {
         final AlertDialog dialog = (AlertDialog) getDialog();
         if (dialog != null) {

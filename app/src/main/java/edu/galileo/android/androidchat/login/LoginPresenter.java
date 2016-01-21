@@ -8,8 +8,8 @@ import edu.galileo.android.androidchat.events.LoginEvent;
 public interface LoginPresenter {
     void onCreate();
     void onDestroy();
-    void onEvent(LoginEvent event);
     void checkForAuthenticatedUser();
+    void onEventMainThread(LoginEvent event);
     void validateLogin(String email, String password);
     void registerNewUser(String email, String password);
 }

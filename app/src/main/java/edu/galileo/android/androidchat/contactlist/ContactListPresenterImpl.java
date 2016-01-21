@@ -56,7 +56,7 @@ public class ContactListPresenterImpl implements ContactListPresenter {
     }
 
     @Override
-    public void onEvent(ContactListEvent event) {
+    public void onEventMainThread(ContactListEvent event) {
         User user = event.getUser();
         switch (event.getEventType()) {
             case ContactListEvent.onContactAdded:

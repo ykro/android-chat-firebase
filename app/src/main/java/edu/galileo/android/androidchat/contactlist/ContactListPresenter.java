@@ -13,5 +13,5 @@ public interface ContactListPresenter {
 
     void signOff();
     void removeContact(String email);
-    void onEvent(ContactListEvent event);
+    void onEventMainThread(ContactListEvent event);
 }
