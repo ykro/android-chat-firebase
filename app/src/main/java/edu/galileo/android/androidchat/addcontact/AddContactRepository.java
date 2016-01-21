@@ -1,32 +1,33 @@
-package edu.galileo.android.androidchat.api;
+package edu.galileo.android.androidchat.addcontact;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import edu.galileo.android.androidchat.addcontact.AddContactEvent;
+import edu.galileo.android.androidchat.contactlist.ContactListRepository;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.login.UserRepository;
 
 /**
  * Created by ykro.
  */
-public class AddContactAPI {
+public class AddContactRepository {
     private static class SingletonHolder {
-        private static final AddContactAPI INSTANCE = new AddContactAPI();
+        private static final AddContactRepository INSTANCE = new AddContactRepository();
     }
-    public static AddContactAPI getInstance() {
+    public static AddContactRepository getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public AddContactAPI(){
+    public AddContactRepository(){
     }
 
     public void addContact(final String email) {
         final String key = email.replace(".","_");
-        final UserAPI userAPI = UserAPI.getInstance();
-        final Firebase userReference = userAPI.getUserReference(email);
+        final UserRepository userRepository = UserRepository.getInstance();
+        final Firebase userReference = userRepository.getUserReference(email);
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -35,14 +36,14 @@ public class AddContactAPI {
                 if (user != null) {
                     boolean online = user.isOnline();
 
-                    ContactListAPI contactListAPI = ContactListAPI.getInstance();
-                    Firebase userContactsReference = contactListAPI.getMyContactsReference();
+                    ContactListRepository contactListRepository = ContactListRepository.getInstance();
+                    Firebase userContactsReference = contactListRepository.getMyContactsReference();
                     userContactsReference.child(key).setValue(online);
 
-                    User currentUser = userAPI.getCurrentUser();
+                    User currentUser = userRepository.getCurrentUser();
                     String currentUserEmailKey = currentUser.getEmail();
                     currentUserEmailKey = currentUserEmailKey.replace(".","_");
-                    Firebase reverseUserContactsReference = contactListAPI.getContactsReference(email);
+                    Firebase reverseUserContactsReference = contactListRepository.getContactsReference(email);
                     reverseUserContactsReference.child(currentUserEmailKey).setValue(true);
                 } else {
                     event.setError(true);

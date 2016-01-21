@@ -1,16 +1,14 @@
 package edu.galileo.android.androidchat.login;
 
-import edu.galileo.android.androidchat.api.UserAPI;
-
 /**
  * Created by ykro.
  */
 
 public class LoginInteractorImpl implements LoginInteractor {
-    private UserAPI util;
+    private UserRepository util;
 
     public LoginInteractorImpl() {
-        this.util = UserAPI.getInstance();
+        this.util = UserRepository.getInstance();
     }
 
     @Override

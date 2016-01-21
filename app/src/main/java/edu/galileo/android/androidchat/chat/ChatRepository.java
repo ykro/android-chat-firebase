@@ -1,20 +1,20 @@
-package edu.galileo.android.androidchat.api;
+package edu.galileo.android.androidchat.chat;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import edu.galileo.android.androidchat.chat.ChatEvent;
+import edu.galileo.android.androidchat.repositories.RepositoryHelper;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.entities.ChatMessage;
 
 /**
  * Created by ykro.
  */
-public class ChatAPI {
+public class ChatRepository {
     private Firebase dataReference;
-    private APIHelper apiHelper;
+    private RepositoryHelper repositoryHelper;
     private ChildEventListener chatEventListener;
 
     private final static String SEPARATOR = "___";
@@ -23,15 +23,15 @@ public class ChatAPI {
     private String sender, receiver;
 
     private static class SingletonHolder {
-        private static final ChatAPI INSTANCE = new ChatAPI();
+        private static final ChatRepository INSTANCE = new ChatRepository();
     }
-    public static ChatAPI getInstance() {
+    public static ChatRepository getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public ChatAPI(){
-        apiHelper = APIHelper.getInstance();
-        dataReference = apiHelper.getDataReference();
+    public ChatRepository(){
+        repositoryHelper = RepositoryHelper.getInstance();
+        dataReference = repositoryHelper.getDataReference();
     }
 
     public void setReceiver(String receiver) {
@@ -39,7 +39,7 @@ public class ChatAPI {
     }
 
     public void setSender() {
-        this.sender = apiHelper.getAuthUserEmail();
+        this.sender = repositoryHelper.getAuthUserEmail();
     }
 
     public void subscribeForChatUpates() {

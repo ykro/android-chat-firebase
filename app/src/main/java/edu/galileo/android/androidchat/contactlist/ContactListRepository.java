@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.api;
+package edu.galileo.android.androidchat.contactlist;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -7,36 +7,37 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-import edu.galileo.android.androidchat.contactlist.ContactListEvent;
+import edu.galileo.android.androidchat.repositories.RepositoryHelper;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.login.UserRepository;
 
 /**
  * Created by ykro.
  */
-public class ContactListAPI {
-    private UserAPI userAPI;
+public class ContactListRepository {
+    private UserRepository userRepository;
     private Firebase dataReference;
     private ChildEventListener contactListEventListener;
     public final static String CONTACTS_PATH = "contacts";
 
     private static class SingletonHolder {
-        private static final ContactListAPI INSTANCE = new ContactListAPI();
+        private static final ContactListRepository INSTANCE = new ContactListRepository();
     }
 
-    public static ContactListAPI getInstance() {
+    public static ContactListRepository getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public ContactListAPI(){
-        APIHelper apiHelper = APIHelper.getInstance();
-        dataReference = apiHelper.getDataReference();
-        userAPI = UserAPI.getInstance();
+    public ContactListRepository(){
+        RepositoryHelper repositoryHelper = RepositoryHelper.getInstance();
+        dataReference = repositoryHelper.getDataReference();
+        userRepository = UserRepository.getInstance();
     }
 
     public void notifyContactsOfConnectionChange(boolean online) {
         Firebase reference;
-        User currentUser = userAPI.getCurrentUser();
+        User currentUser = userRepository.getCurrentUser();
         Map<String, Boolean> contacts = currentUser.getContacts();
 
         if (contacts != null) {
@@ -101,7 +102,7 @@ public class ContactListAPI {
     }
 
     public void removeContact(String email) {
-        User currentUser = userAPI.getCurrentUser();
+        User currentUser = userRepository.getCurrentUser();
         String currentUserEmailKey = currentUser.getEmail().replace(".","_");
         String emailKey = email.replace(".","_");
         getOneContactReference(currentUserEmailKey, emailKey).removeValue();
@@ -109,20 +110,20 @@ public class ContactListAPI {
     }
 
     public Firebase getMyContactsReference(){
-        User currentUser = userAPI.getCurrentUser();
+        User currentUser = userRepository.getCurrentUser();
         String email = currentUser.getEmail();
         return getContactsReference(email);
     }
 
     public Firebase getContactsReference(String email){
         String key = email.replace(".","_");
-        return userAPI.getUserReference(key).child(CONTACTS_PATH);
+        return userRepository.getUserReference(key).child(CONTACTS_PATH);
     }
 
     private Firebase getOneContactReference(String mainEmail, String childEmail){
         String mainKey = mainEmail.replace(".","_");
         String childKey = childEmail.replace(".","_");
-        return userAPI.getUserReference(mainKey).child(CONTACTS_PATH).child(childKey);
+        return userRepository.getUserReference(mainKey).child(CONTACTS_PATH).child(childKey);
     }
 
     private void postEvent(int type, User user) {

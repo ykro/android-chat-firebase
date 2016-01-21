@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.api;
+package edu.galileo.android.androidchat.repositories;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -8,19 +8,19 @@ import java.util.Map;
 /**
  * Created by ykro.
  */
-public class APIHelper {
+public class RepositoryHelper {
     private final static String FIREBASE_URL = "https://android-chat-example.firebaseio.com";
     private Firebase dataReference;
 
     private static class SingletonHolder {
-        private static final APIHelper INSTANCE = new APIHelper();
+        private static final RepositoryHelper INSTANCE = new RepositoryHelper();
     }
 
-    public static APIHelper getInstance() {
+    public static RepositoryHelper getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public APIHelper(){
+    public RepositoryHelper(){
         dataReference = new Firebase(FIREBASE_URL);
     }
 

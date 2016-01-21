@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.api;
+package edu.galileo.android.androidchat.login;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -9,29 +9,30 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.galileo.android.androidchat.repositories.RepositoryHelper;
+import edu.galileo.android.androidchat.contactlist.ContactListRepository;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.login.LoginEvent;
 import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by ykro.
  */
-public class UserAPI {
+public class UserRepository {
     private User currentUser;
-    private APIHelper apiHelper;
+    private RepositoryHelper repositoryHelper;
     private Firebase dataReference;
     private final static String USERS_PATH = "users";
 
     private static class SingletonHolder {
-        private static final UserAPI INSTANCE = new UserAPI();
+        private static final UserRepository INSTANCE = new UserRepository();
     }
-    public static UserAPI getInstance() {
+    public static UserRepository getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public UserAPI(){
-        apiHelper = APIHelper.getInstance();
-        dataReference = apiHelper.getDataReference();
+    public UserRepository(){
+        repositoryHelper = RepositoryHelper.getInstance();
+        dataReference = repositoryHelper.getDataReference();
     }
 
     public void signUp(final String email, final String password) {
@@ -53,7 +54,7 @@ public class UserAPI {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                String email = apiHelper.getAuthUserEmail();
+                String email = repositoryHelper.getAuthUserEmail();
                 if (email != null) {
                     Firebase userReference = getUserReference(email);
                     userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -87,7 +88,7 @@ public class UserAPI {
     }
 
     public void registerNewUser() {
-        String email = apiHelper.getAuthUserEmail();
+        String email = repositoryHelper.getAuthUserEmail();
         if (email != null) {
             this.currentUser = new User(email, true, null);
             getUserReference(email).setValue(currentUser);
@@ -96,7 +97,7 @@ public class UserAPI {
 
     public void checkAlreadyAuthenticated() {
         if (dataReference.getAuth() != null) {
-            String email = apiHelper.getAuthUserEmail();
+            String email = repositoryHelper.getAuthUserEmail();
             if (email != null) {
                 Firebase userReference = getUserReference(email);
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -122,15 +123,15 @@ public class UserAPI {
     }
 
     public void changeUserConnectionStatus(boolean online) {
-        String email = apiHelper.getAuthUserEmail();
+        String email = repositoryHelper.getAuthUserEmail();
         if (email != null) {
             Firebase userReference = getUserReference(email);
             Map<String, Object> updates = new HashMap<String, Object>();
             updates.put("online", online);
             userReference.updateChildren(updates);
 
-            ContactListAPI contactListAPI = ContactListAPI.getInstance();
-            contactListAPI.notifyContactsOfConnectionChange(online);
+            ContactListRepository contactListRepository = ContactListRepository.getInstance();
+            contactListRepository.notifyContactsOfConnectionChange(online);
 
         }
     }

@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.entities.ChatMessage;
-import edu.galileo.android.androidchat.api.AvatarAPI;
+import edu.galileo.android.androidchat.repositories.AvatarRepository;
 
 public class ChatActivity extends AppCompatActivity
                           implements ChatView {
@@ -87,7 +87,7 @@ public class ChatActivity extends AppCompatActivity
         txtStatus.setTextColor(color);
 
         Glide.with(getApplicationContext())
-                .load(AvatarAPI.getAvatarUrl(recipient))
+                .load(AvatarRepository.getAvatarUrl(recipient))
                 .into(imgAvatar);
     }
 

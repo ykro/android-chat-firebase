@@ -1,52 +1,51 @@
 package edu.galileo.android.androidchat.chat;
 
-import edu.galileo.android.androidchat.api.ChatAPI;
-import edu.galileo.android.androidchat.api.UserAPI;
+import edu.galileo.android.androidchat.login.UserRepository;
 
 /**
  * Created by ykro.
  */
 public class ChatInteractorImpl implements ChatInteractor {
-    ChatAPI chatAPI;
-    UserAPI userAPI;
+    ChatRepository chatRepository;
+    UserRepository userRepository;
 
     public ChatInteractorImpl() {
-        this.chatAPI = ChatAPI.getInstance();
-        this.userAPI = UserAPI.getInstance();
+        this.chatRepository = ChatRepository.getInstance();
+        this.userRepository = UserRepository.getInstance();
     }
 
     @Override
     public void subscribeForChatUpates() {
-        chatAPI.subscribeForChatUpates();
+        chatRepository.subscribeForChatUpates();
     }
 
     @Override
     public void unSubscribeForChatUpates() {
-        chatAPI.unSubscribeForChatUpates();
+        chatRepository.unSubscribeForChatUpates();
     }
 
     @Override
     public void destroyChatListener() {
-        chatAPI.destroyChatListener();
+        chatRepository.destroyChatListener();
     }
 
     @Override
     public void changeConnectionStatus(boolean online) {
-        userAPI.changeUserConnectionStatus(online);
+        userRepository.changeUserConnectionStatus(online);
     }
 
     @Override
     public void setRecipient(String recipient) {
-        chatAPI.setReceiver(recipient);
+        chatRepository.setReceiver(recipient);
     }
 
     @Override
     public void setSender() {
-        chatAPI.setSender();
+        chatRepository.setSender();
     }
 
     @Override
     public void sendMessage(String msg) {
-        chatAPI.sendMessage(msg);
+        chatRepository.sendMessage(msg);
     }
 }
