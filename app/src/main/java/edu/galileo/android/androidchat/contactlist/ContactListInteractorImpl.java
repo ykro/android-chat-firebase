@@ -1,27 +1,23 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import edu.galileo.android.androidchat.login.UserRepository;
-
 /**
  * Created by ykro.
  */
 public class ContactListInteractorImpl implements ContactListInteractor {
-    UserRepository userRepository;
-    ContactListRepository contactListRepository;
+    ContactListRepositoryImpl contactListRepository;
 
     public ContactListInteractorImpl() {
-        this.userRepository = UserRepository.getInstance();
-        this.contactListRepository = ContactListRepository.getInstance();
+        this.contactListRepository = new ContactListRepositoryImpl();
     }
 
     @Override
     public void signOff() {
-        userRepository.signOff();
+        contactListRepository.signOff();
     }
 
     @Override
     public void changeConnectionStatus(boolean online) {
-        userRepository.changeUserConnectionStatus(online);
+        contactListRepository.changeUserConnectionStatus(online);
     }
 
     @Override

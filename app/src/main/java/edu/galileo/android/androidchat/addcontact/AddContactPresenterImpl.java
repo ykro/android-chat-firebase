@@ -13,7 +13,7 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     public AddContactPresenterImpl(AddContactView addContactView) {
         this.eventBus = EventBus.getInstance();
         this.addContactView = addContactView;
-        this.addContactInteractor = new AddContactInteractorImpl();
+        this.addContactInteractor = new AddContactInteractorImpl(new AddContactRepositoryImpl());
     }
 
     @Override

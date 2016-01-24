@@ -44,11 +44,6 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void setChatSender() {
-        this.chatInteractor.setSender();
-    }
-
-    @Override
     public void sendMessage(String msg) {
         chatInteractor.sendMessage(msg);
     }

@@ -45,15 +45,13 @@ public class ChatActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         chatPresenter = new ChatPresenterImpl(this);
-        chatPresenter.setChatSender();
 
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         setToolbarData(intent);
 
-        adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        setupAdapter();
+        setupRecyclerView();
     }
 
     @Override
@@ -89,6 +87,15 @@ public class ChatActivity extends AppCompatActivity
         Glide.with(getApplicationContext())
                 .load(AvatarRepository.getAvatarUrl(recipient))
                 .into(imgAvatar);
+    }
+
+    private void setupAdapter() {
+        adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

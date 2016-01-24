@@ -40,9 +40,8 @@ public class ContactListActivity extends AppCompatActivity
         contactListPresenter = new ContactListPresenterImpl(this);
         contactListPresenter.onCreate();
 
-        adapter = new ContactListAdapter(this, new ArrayList<User>(), this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        setupAdapter();
+        setupRecyclerView();
     }
 
     @Override
@@ -89,6 +88,15 @@ public class ContactListActivity extends AppCompatActivity
     public void addContact(){
         AddContactFragment frag = new AddContactFragment();
         frag.show(getSupportFragmentManager(), "");
+    }
+
+    private void setupAdapter() {
+        adapter = new ContactListAdapter(this, new ArrayList<User>(), this);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

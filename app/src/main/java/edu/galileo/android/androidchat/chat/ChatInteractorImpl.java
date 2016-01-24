@@ -1,17 +1,13 @@
 package edu.galileo.android.androidchat.chat;
 
-import edu.galileo.android.androidchat.login.UserRepository;
-
 /**
  * Created by ykro.
  */
 public class ChatInteractorImpl implements ChatInteractor {
     ChatRepository chatRepository;
-    UserRepository userRepository;
 
     public ChatInteractorImpl() {
-        this.chatRepository = ChatRepository.getInstance();
-        this.userRepository = UserRepository.getInstance();
+        this.chatRepository = new ChatRepositoryImpl();
     }
 
     @Override
@@ -31,17 +27,12 @@ public class ChatInteractorImpl implements ChatInteractor {
 
     @Override
     public void changeConnectionStatus(boolean online) {
-        userRepository.changeUserConnectionStatus(online);
+        chatRepository.changeUserConnectionStatus(online);
     }
 
     @Override
     public void setRecipient(String recipient) {
         chatRepository.setReceiver(recipient);
-    }
-
-    @Override
-    public void setSender() {
-        chatRepository.setSender();
     }
 
     @Override

@@ -4,10 +4,10 @@ package edu.galileo.android.androidchat.addcontact;
  * Created by ykro.
  */
 public class AddContactInteractorImpl implements AddContactInteractor {
-    AddContactRepository addContactRepository;
+    AddContactRepositoryImpl addContactRepository;
 
-    public AddContactInteractorImpl() {
-        this.addContactRepository = AddContactRepository.getInstance();
+    public AddContactInteractorImpl(AddContactRepositoryImpl addContactRepository) {
+        this.addContactRepository = addContactRepository;
     }
 
     @Override

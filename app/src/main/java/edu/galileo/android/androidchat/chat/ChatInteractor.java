@@ -11,6 +11,5 @@ public interface ChatInteractor {
     void unSubscribeForChatUpates();
     void changeConnectionStatus(boolean online);
 
-    void setSender();
     void setRecipient(String recipient);
 }

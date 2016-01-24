@@ -8,7 +8,6 @@ public interface ChatPresenter {
     void onResume();
     void onDestroy();
 
-    void setChatSender();
     void setChatRecipient(String recipient);
 
     void sendMessage(String msg);
