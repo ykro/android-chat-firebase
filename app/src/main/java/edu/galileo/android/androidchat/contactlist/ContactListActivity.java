@@ -54,8 +54,8 @@ public class ContactListActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
-        contactListPresenter.onPause();
         super.onPause();
+        contactListPresenter.onPause();
     }
 
     @Override

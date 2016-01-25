@@ -45,6 +45,7 @@ public class ChatActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         chatPresenter = new ChatPresenterImpl(this);
+        chatPresenter.onCreate();
 
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
@@ -62,8 +63,8 @@ public class ChatActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
-        chatPresenter.onPause();
         super.onPause();
+        chatPresenter.onPause();
     }
 
     @Override

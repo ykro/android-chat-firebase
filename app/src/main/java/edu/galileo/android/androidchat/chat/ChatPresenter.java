@@ -6,6 +6,7 @@ package edu.galileo.android.androidchat.chat;
 public interface ChatPresenter {
     void onPause();
     void onResume();
+    void onCreate();
     void onDestroy();
 
     void setChatRecipient(String recipient);

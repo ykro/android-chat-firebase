@@ -3,7 +3,6 @@ package edu.galileo.android.androidchat.contactlist;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +76,23 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
         return position;
     }
 
+    private boolean alreadyInAdapter(User newUser){
+        boolean alreadyInAdapter = false;
+        for (User user : this.contactList) {
+            if (user.getEmail().equals(newUser.getEmail())) {
+                alreadyInAdapter = true;
+                break;
+            }
+        }
+
+        return alreadyInAdapter;
+    }
+
     public void add(User user) {
-        this.contactList.add(user);
-        this.notifyDataSetChanged();
+        if (!alreadyInAdapter(user)) {
+            this.contactList.add(user);
+            this.notifyDataSetChanged();
+        }
     }
 
     public void update(User user) {

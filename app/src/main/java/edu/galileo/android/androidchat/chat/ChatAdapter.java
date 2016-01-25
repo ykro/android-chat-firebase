@@ -72,9 +72,24 @@ public class ChatAdapter extends RecyclerView.Adapter <ChatAdapter.ViewHolder> {
         return chatMessages.size();
     }
 
+    private boolean alreadyInAdapter(ChatMessage newMsg){
+        boolean alreadyInAdapter = false;
+        for (ChatMessage msg : this.chatMessages) {
+            if (msg.getMsg().equals(newMsg.getMsg()) &&
+                    msg.getSender().equals(newMsg.getSender())) {
+                alreadyInAdapter = true;
+                break;
+            }
+        }
+
+        return alreadyInAdapter;
+    }
+
     public void add(ChatMessage message) {
-        this.chatMessages.add(message);
-        this.notifyDataSetChanged();
+        if (!alreadyInAdapter(message)) {
+            this.chatMessages.add(message);
+            this.notifyDataSetChanged();
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

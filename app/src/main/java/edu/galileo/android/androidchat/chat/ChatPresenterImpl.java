@@ -19,8 +19,12 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void onResume() {
+    public void onCreate() {
         eventBus.register(this);
+    }
+
+    @Override
+    public void onResume() {
         chatInteractor.subscribeForChatUpates();
         chatInteractor.changeConnectionStatus(User.ONLINE);
     }

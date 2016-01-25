@@ -28,7 +28,6 @@ public class ContactListRepositoryImpl implements ContactListRepository {
             contactListEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-                    //Log.e("ASDF","contact child added " + dataSnapshot.getKey().toString());
                     String email = dataSnapshot.getKey();
                     email = email.replace("_",".");
                     boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
@@ -61,8 +60,9 @@ public class ContactListRepositoryImpl implements ContactListRepository {
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {}
             };
-            helper.getMyContactsReference().addChildEventListener(contactListEventListener);
         }
+
+        helper.getMyContactsReference().addChildEventListener(contactListEventListener);
     }
 
     @Override
