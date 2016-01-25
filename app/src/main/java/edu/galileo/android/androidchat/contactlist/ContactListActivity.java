@@ -36,9 +36,11 @@ public class ContactListActivity extends AppCompatActivity
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         contactListPresenter = new ContactListPresenterImpl(this);
         contactListPresenter.onCreate();
+
+        toolbar.setSubtitle(contactListPresenter.getCurrentUserEmail());
+        setSupportActionBar(toolbar);
 
         setupAdapter();
         setupRecyclerView();

@@ -16,6 +16,11 @@ public class ContactListInteractorImpl implements ContactListInteractor {
     }
 
     @Override
+    public String getCurrentUserEmail() {
+        return contactListRepository.getCurrentEmail();
+    }
+
+    @Override
     public void changeConnectionStatus(boolean online) {
         contactListRepository.changeUserConnectionStatus(online);
     }

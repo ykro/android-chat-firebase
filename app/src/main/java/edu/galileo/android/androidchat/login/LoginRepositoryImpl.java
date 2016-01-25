@@ -47,6 +47,7 @@ public class LoginRepositoryImpl implements LoginRepository {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                myUserReference = helper.getMyUserReference();
                 myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -69,6 +70,7 @@ public class LoginRepositoryImpl implements LoginRepository {
     @Override
     public void checkAlreadyAuthenticated() {
         if (dataReference.getAuth() != null) {
+            myUserReference = helper.getMyUserReference();
             myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -90,14 +92,12 @@ public class LoginRepositoryImpl implements LoginRepository {
         if (email != null) {
             User currentUser = new User(email, true, null);
             myUserReference.setValue(currentUser);
-            helper.setCurrentUser(currentUser);
         }
     }
 
     private void initSignIn(DataSnapshot snapshot){
         User currentUser = snapshot.getValue(User.class);
-        helper.setCurrentUser(currentUser);
-        myUserReference = helper.getMyUserReference();
+
         if (currentUser == null) {
             registerNewUser();
         }

@@ -10,6 +10,7 @@ public interface ContactListPresenter {
     void onDestroy();
 
     void signOff();
+    String getCurrentUserEmail();
     void removeContact(String email);
     void onEventMainThread(ContactListEvent event);
 }

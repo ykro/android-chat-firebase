@@ -26,6 +26,11 @@ public class ContactListPresenterImpl implements ContactListPresenter {
     }
 
     @Override
+    public String getCurrentUserEmail() {
+        return contactListInteractor.getCurrentUserEmail();
+    }
+
+    @Override
     public void removeContact(String email) {
         contactListInteractor.removeContact(email);
     }

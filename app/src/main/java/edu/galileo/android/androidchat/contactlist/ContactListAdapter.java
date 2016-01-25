@@ -3,6 +3,7 @@ package edu.galileo.android.androidchat.contactlist;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.repositories.AvatarRepository;
 import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.lib.ImageLoading;
+import edu.galileo.android.androidchat.repositories.AvatarRepository;
 
 /**
  * Created by ykro.

@@ -5,6 +5,7 @@ package edu.galileo.android.androidchat.contactlist;
  */
 public interface ContactListInteractor {
     void signOff();
+    String getCurrentUserEmail();
     void changeConnectionStatus(boolean online);
 
     void subscribeForContactEvents();
@@ -12,5 +13,6 @@ public interface ContactListInteractor {
     void destroyContactListListener();
 
     void removeContact(String email);
+
 
 }

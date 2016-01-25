@@ -1,7 +1,5 @@
 package edu.galileo.android.androidchat.chat;
 
-import android.util.Log;
-
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -31,7 +29,6 @@ public class ChatRepositoryImpl implements ChatRepository {
     @Override
     public void subscribeForChatUpates() {
         if (chatEventListener == null) {
-
             chatEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
@@ -66,7 +63,7 @@ public class ChatRepositoryImpl implements ChatRepository {
     @Override
     public void unSubscribeForChatUpates() {
         if (chatEventListener != null) {
-            helper.getDataReference().removeEventListener(chatEventListener);
+            helper.getChatsReference(receiver).removeEventListener(chatEventListener);
         }
     }
 

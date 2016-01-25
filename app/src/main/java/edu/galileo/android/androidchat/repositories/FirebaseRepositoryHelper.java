@@ -1,7 +1,10 @@
 package edu.galileo.android.androidchat.repositories;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +15,6 @@ import edu.galileo.android.androidchat.entities.User;
  * Created by ykro.
  */
 public class FirebaseRepositoryHelper {
-    private User currentUser;
     private Firebase dataReference;
     private final static String SEPARATOR = "___";
     private final static String CHATS_PATH = "chats";
@@ -32,14 +34,6 @@ public class FirebaseRepositoryHelper {
         dataReference = new Firebase(FIREBASE_URL);
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
     public Firebase getDataReference() {
         return dataReference;
     }
@@ -54,7 +48,6 @@ public class FirebaseRepositoryHelper {
         return email;
     }
 
-    //revisar donde se usa
     public Firebase getUserReference(String email){
         Firebase userReference = null;
         if (email != null) {
@@ -93,38 +86,41 @@ public class FirebaseRepositoryHelper {
     }
 
     public void changeUserConnectionStatus(boolean online) {
-        Map<String, Object> updates = new HashMap<String, Object>();
-        updates.put("online", online);
-        getMyUserReference().updateChildren(updates);
+        if (getMyUserReference() != null) {
+            Map<String, Object> updates = new HashMap<String, Object>();
+            updates.put("online", online);
+            getMyUserReference().updateChildren(updates);
 
-        notifyContactsOfConnectionChange(online);
+            notifyContactsOfConnectionChange(online);
+        }
     }
 
-    public void notifyContactsOfConnectionChange(final boolean online) {
-        Map<String, Boolean> contacts = currentUser.getContacts();
-
-        if (contacts != null) {
-            for(Map.Entry<String, Boolean> entry : contacts.entrySet()) {
-                String email = entry.getKey();
-                Firebase reference = getOneContactReference(email, currentUser.getEmail());
-                reference.setValue(online);
-            }
-        }
-
-        /*
+    public void notifyContactsOfConnectionChange(final boolean online, final boolean signoff) {
+        final String myEmail = getAuthUserEmail();
         getMyContactsReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot contact : snapshot.getChildren()) {
-                    String email = contact.getKey();
-                    Firebase reference = getOneContactReference(email, getAuthUserEmail());
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String email = child.getKey();
+                    Firebase reference = getOneContactReference(email, myEmail);
                     reference.setValue(online);
+                }
+                if (signoff){
+                    dataReference.unauth();
                 }
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(FirebaseError firebaseError) {
+            }
         });
-        */
+    }
+
+    public void notifyContactsOfConnectionChange(boolean online) {
+        notifyContactsOfConnectionChange(online, false);
+    }
+
+    public void signOff(){
+        notifyContactsOfConnectionChange(User.OFFLINE, true);
     }
 }
