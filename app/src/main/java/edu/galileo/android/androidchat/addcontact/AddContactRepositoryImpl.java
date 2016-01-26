@@ -5,9 +5,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.addcontact.events.AddContactEvent;
+import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.repositories.FirebaseRepositoryHelper;
+import edu.galileo.android.androidchat.domain.FirebaseHelper;
 
 /**
  * Created by ykro.
@@ -17,7 +18,7 @@ public class AddContactRepositoryImpl implements AddContactRepository {
     public void addContact(final String email) {
         final String key = email.replace(".","_");
 
-        FirebaseRepositoryHelper helper = FirebaseRepositoryHelper.getInstance();
+        FirebaseHelper helper = FirebaseHelper.getInstance();
         final Firebase userReference = helper.getUserReference(email);
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -26,7 +27,7 @@ public class AddContactRepositoryImpl implements AddContactRepository {
                 AddContactEvent event = new AddContactEvent();
                 if (user != null) {
                     boolean online = user.isOnline();
-                    FirebaseRepositoryHelper helper = FirebaseRepositoryHelper.getInstance();
+                    FirebaseHelper helper = FirebaseHelper.getInstance();
 
                     Firebase userContactsReference = helper.getMyContactsReference();
                     userContactsReference.child(key).setValue(online);

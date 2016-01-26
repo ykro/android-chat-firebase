@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.chat;
+package edu.galileo.android.androidchat.chat.adapters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.entities.ChatMessage;
+import edu.galileo.android.androidchat.chat.entities.ChatMessage;
 
 /**
  * Created by ykro.

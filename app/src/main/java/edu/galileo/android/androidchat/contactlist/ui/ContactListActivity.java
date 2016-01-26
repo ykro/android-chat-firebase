@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.contactlist;
+package edu.galileo.android.androidchat.contactlist.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +15,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.addcontact.AddContactFragment;
-import edu.galileo.android.androidchat.chat.ChatActivity;
-import edu.galileo.android.androidchat.entities.User;
-import edu.galileo.android.androidchat.login.LoginActivity;
+import edu.galileo.android.androidchat.addcontact.ui.AddContactFragment;
+import edu.galileo.android.androidchat.chat.ui.ChatActivity;
+import edu.galileo.android.androidchat.contactlist.ContactListPresenter;
+import edu.galileo.android.androidchat.contactlist.ContactListPresenterImpl;
+import edu.galileo.android.androidchat.contactlist.adapters.ContactListAdapter;
+import edu.galileo.android.androidchat.contactlist.entities.User;
+import edu.galileo.android.androidchat.login.ui.LoginActivity;
 
 public class ContactListActivity extends AppCompatActivity
                                  implements ContactListView, OnItemClickListener {

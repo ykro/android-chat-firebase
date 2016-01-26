@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.repositories;
+package edu.galileo.android.androidchat.domain;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -9,12 +9,12 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.contactlist.entities.User;
 
 /**
  * Created by ykro.
  */
-public class FirebaseRepositoryHelper {
+public class FirebaseHelper {
     private Firebase dataReference;
     private final static String SEPARATOR = "___";
     private final static String CHATS_PATH = "chats";
@@ -23,14 +23,14 @@ public class FirebaseRepositoryHelper {
     private final static String FIREBASE_URL = "https://android-chat-example.firebaseio.com";
 
     private static class SingletonHolder {
-        private static final FirebaseRepositoryHelper INSTANCE = new FirebaseRepositoryHelper();
+        private static final FirebaseHelper INSTANCE = new FirebaseHelper();
     }
 
-    public static FirebaseRepositoryHelper getInstance() {
+    public static FirebaseHelper getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public FirebaseRepositoryHelper(){
+    public FirebaseHelper(){
         dataReference = new Firebase(FIREBASE_URL);
     }
 

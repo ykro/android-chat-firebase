@@ -8,20 +8,21 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Map;
 
-import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.repositories.FirebaseRepositoryHelper;
+import edu.galileo.android.androidchat.login.events.LoginEvent;
+import edu.galileo.android.androidchat.domain.FirebaseHelper;
 
 /**
  * Created by ykro.
  */
 public class LoginRepositoryImpl implements LoginRepository {
+    private FirebaseHelper helper;
     private Firebase dataReference;
     private Firebase myUserReference;
-    private FirebaseRepositoryHelper helper;
 
     public LoginRepositoryImpl(){
-        helper = FirebaseRepositoryHelper.getInstance();
+        helper = FirebaseHelper.getInstance();
         dataReference = helper.getDataReference();
         myUserReference = helper.getMyUserReference();
     }

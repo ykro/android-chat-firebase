@@ -10,16 +10,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by ykro.
  */
 public class ImageLoading {
-    Context context;
 
-    public ImageLoading(Context context){
-        this.context = context;
+    private static class SingletonHolder {
+        private static final ImageLoading INSTANCE = new ImageLoading();
     }
 
-    public void loadImage(String url, CircleImageView view) {
+    public static ImageLoading getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    public void loadImage(Context context, String url, CircleImageView view) {
         Glide.with(context.getApplicationContext())
                 .load(url)
                 .into(view);
     }
-
 }

@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.chat;
+package edu.galileo.android.androidchat.chat.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -19,8 +17,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
-import edu.galileo.android.androidchat.entities.ChatMessage;
-import edu.galileo.android.androidchat.repositories.AvatarRepository;
+import edu.galileo.android.androidchat.chat.ChatPresenter;
+import edu.galileo.android.androidchat.chat.ChatPresenterImpl;
+import edu.galileo.android.androidchat.chat.adapters.ChatAdapter;
+import edu.galileo.android.androidchat.domain.AvatarHelper;
+import edu.galileo.android.androidchat.chat.entities.ChatMessage;
+import edu.galileo.android.androidchat.lib.ImageLoading;
 
 public class ChatActivity extends AppCompatActivity
                           implements ChatView {
@@ -85,9 +87,9 @@ public class ChatActivity extends AppCompatActivity
         txtStatus.setText(status);
         txtStatus.setTextColor(color);
 
-        Glide.with(getApplicationContext())
-                .load(AvatarRepository.getAvatarUrl(recipient))
-                .into(imgAvatar);
+
+        ImageLoading imageLoading = ImageLoading.getInstance();
+        imageLoading.loadImage(getApplicationContext(), AvatarHelper.getAvatarUrl(recipient), imgAvatar);
     }
 
     private void setupAdapter() {

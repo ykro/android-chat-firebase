@@ -1,6 +1,6 @@
-package edu.galileo.android.androidchat.chat;
+package edu.galileo.android.androidchat.chat.events;
 
-import edu.galileo.android.androidchat.entities.ChatMessage;
+import edu.galileo.android.androidchat.chat.entities.ChatMessage;
 
 /**
  * Created by ykro.

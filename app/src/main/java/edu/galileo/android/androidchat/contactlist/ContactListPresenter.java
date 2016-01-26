@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.contactlist;
 
+import edu.galileo.android.androidchat.contactlist.events.ContactListEvent;
+
 /**
  * Created by ykro.
  */

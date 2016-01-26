@@ -5,20 +5,21 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import edu.galileo.android.androidchat.entities.ChatMessage;
+import edu.galileo.android.androidchat.chat.events.ChatEvent;
+import edu.galileo.android.androidchat.chat.entities.ChatMessage;
 import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.repositories.FirebaseRepositoryHelper;
+import edu.galileo.android.androidchat.domain.FirebaseHelper;
 
 /**
  * Created by ykro.
  */
 public class ChatRepositoryImpl implements ChatRepository {
     private String receiver;
-    private FirebaseRepositoryHelper helper;
+    private FirebaseHelper helper;
     private ChildEventListener chatEventListener;
 
     public ChatRepositoryImpl(){
-        helper = FirebaseRepositoryHelper.getInstance();
+        helper = FirebaseHelper.getInstance();
     }
 
     @Override

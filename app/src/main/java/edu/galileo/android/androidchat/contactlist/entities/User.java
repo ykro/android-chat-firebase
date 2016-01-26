@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.entities;
+package edu.galileo.android.androidchat.contactlist.entities;
 
 import java.util.Map;
 

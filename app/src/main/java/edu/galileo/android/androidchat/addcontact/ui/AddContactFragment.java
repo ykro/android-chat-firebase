@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.addcontact;
+package edu.galileo.android.androidchat.addcontact.ui;
 
 
 import android.app.Dialog;
@@ -17,12 +17,14 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.addcontact.AddContactPresenter;
+import edu.galileo.android.androidchat.addcontact.AddContactPresenterImpl;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddContactFragment extends DialogFragment
-                                implements  AddContactView,
+                                implements AddContactView,
                                             DialogInterface.OnShowListener {
 
     @Bind(R.id.editTxtEmail)        EditText inputEmail;

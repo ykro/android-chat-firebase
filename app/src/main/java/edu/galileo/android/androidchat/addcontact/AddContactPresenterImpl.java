@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.addcontact;
 
+import edu.galileo.android.androidchat.addcontact.events.AddContactEvent;
+import edu.galileo.android.androidchat.addcontact.ui.AddContactView;
 import edu.galileo.android.androidchat.lib.EventBus;
 
 /**

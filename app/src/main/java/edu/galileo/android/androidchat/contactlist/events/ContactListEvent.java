@@ -1,6 +1,6 @@
-package edu.galileo.android.androidchat.contactlist;
+package edu.galileo.android.androidchat.contactlist.events;
 
-import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.contactlist.entities.User;
 
 /**
  * Created by ykro.

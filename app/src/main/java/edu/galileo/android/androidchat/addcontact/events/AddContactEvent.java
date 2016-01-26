@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.addcontact;
+package edu.galileo.android.androidchat.addcontact.events;
 
 /**
  * Created by ykro.
