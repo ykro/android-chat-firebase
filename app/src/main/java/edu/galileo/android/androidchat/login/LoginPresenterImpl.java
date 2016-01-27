@@ -1,6 +1,7 @@
 package edu.galileo.android.androidchat.login;
 
 import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 import edu.galileo.android.androidchat.login.events.LoginEvent;
 import edu.galileo.android.androidchat.login.ui.LoginView;
 
@@ -14,7 +15,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
-        this.eventBus = EventBus.getInstance();
+        this.eventBus = GreenRobotEventBus.getInstance();
         this.loginInteractor = new LoginInteractorImpl();
     }
 

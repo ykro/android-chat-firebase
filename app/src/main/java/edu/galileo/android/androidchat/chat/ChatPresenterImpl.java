@@ -5,6 +5,7 @@ import edu.galileo.android.androidchat.chat.events.ChatEvent;
 import edu.galileo.android.androidchat.chat.ui.ChatView;
 import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -16,7 +17,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     public ChatPresenterImpl(ChatView chatView){
         this.chatView = chatView;
-        this.eventBus = EventBus.getInstance();
+        this.eventBus = GreenRobotEventBus.getInstance();
         this.chatInteractor = new ChatInteractorImpl();
     }
 

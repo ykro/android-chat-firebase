@@ -3,6 +3,7 @@ package edu.galileo.android.androidchat.addcontact;
 import edu.galileo.android.androidchat.addcontact.events.AddContactEvent;
 import edu.galileo.android.androidchat.addcontact.ui.AddContactView;
 import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -13,7 +14,7 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     AddContactInteractor addContactInteractor;
 
     public AddContactPresenterImpl(AddContactView addContactView) {
-        this.eventBus = EventBus.getInstance();
+        this.eventBus = GreenRobotEventBus.getInstance();
         this.addContactView = addContactView;
         this.addContactInteractor = new AddContactInteractorImpl(new AddContactRepositoryImpl());
     }

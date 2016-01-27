@@ -7,8 +7,9 @@ import com.firebase.client.ValueEventListener;
 
 import edu.galileo.android.androidchat.addcontact.events.AddContactEvent;
 import edu.galileo.android.androidchat.contactlist.entities.User;
-import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
+import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -39,7 +40,7 @@ public class AddContactRepositoryImpl implements AddContactRepository {
                 } else {
                     event.setError(true);
                 }
-                EventBus eventBus = EventBus.getInstance();
+                EventBus eventBus = GreenRobotEventBus.getInstance();
                 eventBus.post(event);
             }
 

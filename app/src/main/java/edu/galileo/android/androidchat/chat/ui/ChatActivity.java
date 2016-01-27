@@ -16,13 +16,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import edu.galileo.android.androidchat.AndroidChatApplication;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.chat.ChatPresenter;
 import edu.galileo.android.androidchat.chat.ChatPresenterImpl;
 import edu.galileo.android.androidchat.chat.adapters.ChatAdapter;
-import edu.galileo.android.androidchat.domain.AvatarHelper;
 import edu.galileo.android.androidchat.chat.entities.ChatMessage;
-import edu.galileo.android.androidchat.lib.ImageLoading;
+import edu.galileo.android.androidchat.domain.AvatarHelper;
+import edu.galileo.android.androidchat.lib.ImageLoader;
 
 public class ChatActivity extends AppCompatActivity
                           implements ChatView {
@@ -87,9 +88,9 @@ public class ChatActivity extends AppCompatActivity
         txtStatus.setText(status);
         txtStatus.setTextColor(color);
 
-
-        ImageLoading imageLoading = ImageLoading.getInstance();
-        imageLoading.loadImage(getApplicationContext(), AvatarHelper.getAvatarUrl(recipient), imgAvatar);
+        AndroidChatApplication app = (AndroidChatApplication)getApplication();
+        ImageLoader imageLoader = app.getImageLoader();
+        imageLoader.load(imgAvatar, AvatarHelper.getAvatarUrl(recipient));
     }
 
     private void setupAdapter() {

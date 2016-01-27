@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.galileo.android.androidchat.AndroidChatApplication;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.addcontact.ui.AddContactFragment;
 import edu.galileo.android.androidchat.chat.ui.ChatActivity;
@@ -21,6 +22,7 @@ import edu.galileo.android.androidchat.contactlist.ContactListPresenter;
 import edu.galileo.android.androidchat.contactlist.ContactListPresenterImpl;
 import edu.galileo.android.androidchat.contactlist.adapters.ContactListAdapter;
 import edu.galileo.android.androidchat.contactlist.entities.User;
+import edu.galileo.android.androidchat.lib.ImageLoader;
 import edu.galileo.android.androidchat.login.ui.LoginActivity;
 
 public class ContactListActivity extends AppCompatActivity
@@ -96,7 +98,9 @@ public class ContactListActivity extends AppCompatActivity
     }
 
     private void setupAdapter() {
-        adapter = new ContactListAdapter(this, new ArrayList<User>(), this);
+        AndroidChatApplication app = (AndroidChatApplication)getApplication();
+        ImageLoader imageLoader = app.getImageLoader();
+        adapter = new ContactListAdapter(new ArrayList<User>(), imageLoader, this);
     }
 
     private void setupRecyclerView() {

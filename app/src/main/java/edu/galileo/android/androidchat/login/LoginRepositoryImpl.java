@@ -9,9 +9,10 @@ import com.firebase.client.ValueEventListener;
 import java.util.Map;
 
 import edu.galileo.android.androidchat.contactlist.entities.User;
-import edu.galileo.android.androidchat.lib.EventBus;
-import edu.galileo.android.androidchat.login.events.LoginEvent;
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
+import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
+import edu.galileo.android.androidchat.login.events.LoginEvent;
 
 /**
  * Created by ykro.
@@ -117,7 +118,7 @@ public class LoginRepositoryImpl implements LoginRepository {
             loginEvent.setErrorMesage(errorMessage);
         }
 
-        EventBus eventBus = EventBus.getInstance();
+        EventBus eventBus = GreenRobotEventBus.getInstance();
         eventBus.post(loginEvent);
     }
 

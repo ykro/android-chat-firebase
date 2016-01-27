@@ -4,10 +4,11 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 
+import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.contactlist.events.ContactListEvent;
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
-import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -102,7 +103,7 @@ public class ContactListRepositoryImpl implements ContactListRepository {
         ContactListEvent contactListEvent = new ContactListEvent();
         contactListEvent.setEventType(type);
         contactListEvent.setUser(user);
-        EventBus eventBus = EventBus.getInstance();
+        EventBus eventBus = GreenRobotEventBus.getInstance();
         eventBus.post(contactListEvent);
     }
 }

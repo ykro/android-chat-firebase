@@ -1,9 +1,10 @@
 package edu.galileo.android.androidchat.contactlist;
 
+import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.contactlist.events.ContactListEvent;
 import edu.galileo.android.androidchat.contactlist.ui.ContactListView;
-import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -14,7 +15,7 @@ public class ContactListPresenterImpl implements ContactListPresenter {
     ContactListInteractor contactListInteractor;
 
     public ContactListPresenterImpl(ContactListView contactListView){
-        this.eventBus = EventBus.getInstance();
+        this.eventBus = GreenRobotEventBus.getInstance();
         this.contactListView = contactListView;
         this.contactListInteractor = new ContactListInteractorImpl();
     }

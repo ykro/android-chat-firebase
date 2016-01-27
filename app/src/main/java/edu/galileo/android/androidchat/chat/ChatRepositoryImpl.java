@@ -5,10 +5,11 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import edu.galileo.android.androidchat.chat.events.ChatEvent;
 import edu.galileo.android.androidchat.chat.entities.ChatMessage;
-import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.chat.events.ChatEvent;
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
+import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 
 /**
  * Created by ykro.
@@ -41,7 +42,7 @@ public class ChatRepositoryImpl implements ChatRepository {
                     chatMessage.setSentByMe(msgSender.equals(currentUserEmail));
 
                     ChatEvent chatEvent = new ChatEvent(chatMessage);
-                    EventBus eventBus = EventBus.getInstance();
+                    EventBus eventBus = GreenRobotEventBus.getInstance();
                     eventBus.post(chatEvent);
                 }
 
