@@ -26,11 +26,6 @@ public class ChatInteractorImpl implements ChatInteractor {
     }
 
     @Override
-    public void changeConnectionStatus(boolean online) {
-        chatRepository.changeUserConnectionStatus(online);
-    }
-
-    @Override
     public void setRecipient(String recipient) {
         chatRepository.setReceiver(recipient);
     }

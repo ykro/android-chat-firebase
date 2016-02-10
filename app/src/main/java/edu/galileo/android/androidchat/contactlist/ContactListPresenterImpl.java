@@ -12,25 +12,28 @@ import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 public class ContactListPresenterImpl implements ContactListPresenter {
     EventBus eventBus;
     ContactListView contactListView;
+    ContactListSessionInteractor contactListSessionInteractor;
     ContactListInteractor contactListInteractor;
+
 
     public ContactListPresenterImpl(ContactListView contactListView){
         this.eventBus = GreenRobotEventBus.getInstance();
         this.contactListView = contactListView;
+        this.contactListSessionInteractor = new ContactListSessionInteractorImpl();
         this.contactListInteractor = new ContactListInteractorImpl();
     }
 
     @Override
     public void signOff() {
-        contactListInteractor.changeConnectionStatus(User.OFFLINE);
+        contactListSessionInteractor.changeConnectionStatus(User.OFFLINE);
         contactListInteractor.destroyContactListListener();
         contactListInteractor.unSubscribeForContactEvents();
-        contactListInteractor.signOff();
+        contactListSessionInteractor.signOff();
     }
 
     @Override
     public String getCurrentUserEmail() {
-        return contactListInteractor.getCurrentUserEmail();
+        return contactListSessionInteractor.getCurrentUserEmail();
     }
 
     @Override
@@ -45,13 +48,13 @@ public class ContactListPresenterImpl implements ContactListPresenter {
 
     @Override
     public void onResume() {
-        contactListInteractor.changeConnectionStatus(User.ONLINE);
+        contactListSessionInteractor.changeConnectionStatus(User.ONLINE);
         contactListInteractor.subscribeForContactEvents();
     }
 
     @Override
     public void onPause() {
-        contactListInteractor.changeConnectionStatus(User.OFFLINE);
+        contactListSessionInteractor.changeConnectionStatus(User.OFFLINE);
         contactListInteractor.unSubscribeForContactEvents();
     }
 

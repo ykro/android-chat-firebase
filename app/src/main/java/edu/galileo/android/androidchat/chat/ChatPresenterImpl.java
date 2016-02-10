@@ -14,11 +14,14 @@ public class ChatPresenterImpl implements ChatPresenter {
     EventBus eventBus;
     ChatView chatView;
     ChatInteractor chatInteractor;
+    ChatSessionInteractor chatSessionInteractor;
 
     public ChatPresenterImpl(ChatView chatView){
         this.chatView = chatView;
         this.eventBus = GreenRobotEventBus.getInstance();
+
         this.chatInteractor = new ChatInteractorImpl();
+        this.chatSessionInteractor = new ChatSessionInteractorImpl();
     }
 
     @Override
@@ -29,13 +32,13 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     public void onResume() {
         chatInteractor.subscribeForChatUpates();
-        chatInteractor.changeConnectionStatus(User.ONLINE);
+        chatSessionInteractor.changeConnectionStatus(User.ONLINE);
     }
 
     @Override
     public void onPause() {
         chatInteractor.unSubscribeForChatUpates();
-        chatInteractor.changeConnectionStatus(User.OFFLINE);
+        chatSessionInteractor.changeConnectionStatus(User.OFFLINE);
     }
 
     @Override

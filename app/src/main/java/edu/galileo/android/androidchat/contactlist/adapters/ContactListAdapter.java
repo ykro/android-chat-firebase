@@ -1,6 +1,5 @@
 package edu.galileo.android.androidchat.contactlist.adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import edu.galileo.android.androidchat.lib.ImageLoader;
  * Created by ykro.
  */
 public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter.ViewHolder> {
-    private Context context;
     private List<User> contactList;
     private ImageLoader imageLoader;
     private OnItemClickListener clickListener;
@@ -31,9 +29,9 @@ public class ContactListAdapter extends RecyclerView.Adapter <ContactListAdapter
     public ContactListAdapter(List<User> contactList,
                               ImageLoader imageLoader,
                               OnItemClickListener clickListener) {
-
         this.contactList = contactList;
         this.imageLoader = imageLoader;
+        this.clickListener = clickListener;
     }
 
     @Override

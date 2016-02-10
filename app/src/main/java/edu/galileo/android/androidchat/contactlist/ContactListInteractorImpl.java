@@ -11,21 +11,6 @@ public class ContactListInteractorImpl implements ContactListInteractor {
     }
 
     @Override
-    public void signOff() {
-        contactListRepository.signOff();
-    }
-
-    @Override
-    public String getCurrentUserEmail() {
-        return contactListRepository.getCurrentEmail();
-    }
-
-    @Override
-    public void changeConnectionStatus(boolean online) {
-        contactListRepository.changeUserConnectionStatus(online);
-    }
-
-    @Override
     public void subscribeForContactEvents() {
         contactListRepository.subscribeForContactListUpdates();
     }
