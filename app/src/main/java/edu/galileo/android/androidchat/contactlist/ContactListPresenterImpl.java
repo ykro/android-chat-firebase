@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.contactlist;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.contactlist.events.ContactListEvent;
 import edu.galileo.android.androidchat.contactlist.ui.ContactListView;
@@ -66,6 +68,7 @@ public class ContactListPresenterImpl implements ContactListPresenter {
     }
 
     @Override
+    @Subscribe
     public void onEventMainThread(ContactListEvent event) {
         User user = event.getUser();
         switch (event.getEventType()) {

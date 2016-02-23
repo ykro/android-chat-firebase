@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.chat;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import edu.galileo.android.androidchat.chat.entities.ChatMessage;
 import edu.galileo.android.androidchat.chat.events.ChatEvent;
 import edu.galileo.android.androidchat.chat.ui.ChatView;
@@ -59,6 +61,7 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
+    @Subscribe
     public void onEventMainThread(ChatEvent event) {
         if (chatView != null) {
             ChatMessage msg = event.getMessage();

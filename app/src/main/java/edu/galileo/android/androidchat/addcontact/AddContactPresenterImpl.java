@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.addcontact;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import edu.galileo.android.androidchat.addcontact.events.AddContactEvent;
 import edu.galileo.android.androidchat.addcontact.ui.AddContactView;
 import edu.galileo.android.androidchat.lib.EventBus;
@@ -38,6 +40,7 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     }
 
     @Override
+    @Subscribe
     public void onEventMainThread(AddContactEvent event) {
         if (addContactView != null) {
             addContactView.hideProgress();
