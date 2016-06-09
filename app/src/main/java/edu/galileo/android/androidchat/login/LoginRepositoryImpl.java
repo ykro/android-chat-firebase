@@ -1,10 +1,16 @@
 package edu.galileo.android.androidchat.login;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
@@ -19,8 +25,8 @@ import edu.galileo.android.androidchat.login.events.LoginEvent;
  */
 public class LoginRepositoryImpl implements LoginRepository {
     private FirebaseHelper helper;
-    private Firebase dataReference;
-    private Firebase myUserReference;
+    private DatabaseReference dataReference;
+    private DatabaseReference myUserReference;
 
     public LoginRepositoryImpl(){
         helper = FirebaseHelper.getInstance();
@@ -30,48 +36,57 @@ public class LoginRepositoryImpl implements LoginRepository {
 
     @Override
     public void signUp(final String email, final String password) {
-        dataReference.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
-            @Override
-            public void onSuccess(Map<String, Object> result) {
-                postEvent(LoginEvent.onSignUpSuccess);
-                signIn(email, password);
-            }
-
-            @Override
-            public void onError(FirebaseError firebaseError) {
-                postEvent(LoginEvent.onSignUpError, firebaseError.getMessage());
-            }
-        });
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        postEvent(LoginEvent.onSignUpSuccess);
+                        signIn(email, password);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        postEvent(LoginEvent.onSignUpError, e.getMessage());
+                    }
+                });
     }
 
     @Override
     public void signIn(String email, String password) {
-        dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                myUserReference = helper.getMyUserReference();
-                myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        initSignIn(snapshot);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                    }
-                });
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
-            }
-        });
+        try {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            myUserReference = helper.getMyUserReference();
+                            myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    initSignIn(snapshot);
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError firebaseError) {
+                                    postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            postEvent(LoginEvent.onSignInError, e.getMessage());
+                        }
+                    });
+        } catch (Exception e) {
+            postEvent(LoginEvent.onSignInError, e.getMessage());
+        }
     }
 
     @Override
     public void checkAlreadyAuthenticated() {
-        if (dataReference.getAuth() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             myUserReference = helper.getMyUserReference();
             myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -80,7 +95,7 @@ public class LoginRepositoryImpl implements LoginRepository {
                 }
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {
+                public void onCancelled(DatabaseError firebaseError) {
                     postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
                 }
             });

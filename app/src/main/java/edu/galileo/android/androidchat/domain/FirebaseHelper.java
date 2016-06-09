@@ -1,10 +1,12 @@
 package edu.galileo.android.androidchat.domain;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +17,11 @@ import edu.galileo.android.androidchat.contactlist.entities.User;
  * Created by ykro.
  */
 public class FirebaseHelper {
-    private Firebase dataReference;
+    private DatabaseReference dataReference;
     private final static String SEPARATOR = "___";
     private final static String CHATS_PATH = "chats";
     private final static String USERS_PATH = "users";
     public final static String CONTACTS_PATH = "contacts";
-    private final static String FIREBASE_URL = "https://android-chat-example.firebaseio.com";
 
     private static class SingletonHolder {
         private static final FirebaseHelper INSTANCE = new FirebaseHelper();
@@ -31,25 +32,24 @@ public class FirebaseHelper {
     }
 
     public FirebaseHelper(){
-        dataReference = new Firebase(FIREBASE_URL);
+        dataReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public Firebase getDataReference() {
+    public DatabaseReference getDataReference() {
         return dataReference;
     }
 
     public String getAuthUserEmail() {
-        AuthData authData = dataReference.getAuth();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String email = null;
-        if (authData != null) {
-            Map<String, Object> providerData = authData.getProviderData();
-            email = providerData.get("email").toString();
+        if (user != null) {
+            email = user.getEmail();
         }
         return email;
     }
 
-    public Firebase getUserReference(String email){
-        Firebase userReference = null;
+    public DatabaseReference getUserReference(String email){
+        DatabaseReference userReference = null;
         if (email != null) {
             String emailKey = email.replace(".", "_");
             userReference = dataReference.getRoot().child(USERS_PATH).child(emailKey);
@@ -57,24 +57,24 @@ public class FirebaseHelper {
         return userReference;
     }
 
-    public Firebase getMyUserReference() {
+    public DatabaseReference getMyUserReference() {
         return getUserReference(getAuthUserEmail());
     }
 
-    public Firebase getContactsReference(String email){
+    public DatabaseReference getContactsReference(String email){
         return getUserReference(email).child(CONTACTS_PATH);
     }
 
-    public Firebase getMyContactsReference(){
+    public DatabaseReference getMyContactsReference(){
         return getContactsReference(getAuthUserEmail());
     }
 
-    public Firebase getOneContactReference(String mainEmail, String childEmail){
+    public DatabaseReference getOneContactReference(String mainEmail, String childEmail){
         String childKey = childEmail.replace(".","_");
         return getUserReference(mainEmail).child(CONTACTS_PATH).child(childKey);
     }
 
-    public Firebase getChatsReference(String receiver){
+    public DatabaseReference getChatsReference(String receiver){
         String keySender = getAuthUserEmail().replace(".","_");
         String keyReceiver = receiver.replace(".","_");
 
@@ -102,16 +102,16 @@ public class FirebaseHelper {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String email = child.getKey();
-                    Firebase reference = getOneContactReference(email, myEmail);
+                    DatabaseReference reference = getOneContactReference(email, myEmail);
                     reference.setValue(online);
                 }
                 if (signoff){
-                    dataReference.unauth();
+                    FirebaseAuth.getInstance().signOut();
                 }
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
             }
         });
     }

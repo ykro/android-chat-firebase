@@ -1,9 +1,9 @@
 package edu.galileo.android.androidchat.chat;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseError;
 
 import edu.galileo.android.androidchat.chat.entities.ChatMessage;
 import edu.galileo.android.androidchat.chat.events.ChatEvent;
@@ -56,7 +56,7 @@ public class ChatRepositoryImpl implements ChatRepository {
                 public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {}
+                public void onCancelled(DatabaseError firebaseError) {}
             };
             helper.getChatsReference(receiver).addChildEventListener(chatEventListener);
         }
@@ -78,7 +78,7 @@ public class ChatRepositoryImpl implements ChatRepository {
     public void sendMessage(String msg) {
         String keySender = helper.getAuthUserEmail().replace(".","_");
         ChatMessage chatMessage = new ChatMessage(keySender, msg);
-        Firebase chatsReference = helper.getChatsReference(receiver);
+        DatabaseReference chatsReference = helper.getChatsReference(receiver);
         chatsReference.push().setValue(chatMessage);
     }
 
