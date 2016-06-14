@@ -1,8 +1,8 @@
 package edu.galileo.android.androidchat.contactlist;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 import edu.galileo.android.androidchat.contactlist.entities.User;
 import edu.galileo.android.androidchat.contactlist.events.ContactListEvent;
@@ -58,7 +58,7 @@ public class ContactListRepositoryImpl implements ContactListRepository {
                 }
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {}
+                public void onCancelled(DatabaseError firebaseError) {}
             };
         }
 

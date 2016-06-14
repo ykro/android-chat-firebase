@@ -2,7 +2,7 @@ package edu.galileo.android.androidchat;
 
 import android.app.Application;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.FirebaseDatabase;
 
 import edu.galileo.android.androidchat.lib.GlideImageLoader;
 import edu.galileo.android.androidchat.lib.ImageLoader;
@@ -29,7 +29,6 @@ public class AndroidChatApplication extends Application {
     }
 
     private void setupFirebase(){
-        Firebase.setAndroidContext(this);
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

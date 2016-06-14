@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidChat.iml" filepath="$PROJECT_DIR$/AndroidChat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-chat-firebase.iml" filepath="$PROJECT_DIR$/android-chat-firebase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
